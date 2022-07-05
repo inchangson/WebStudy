@@ -1,32 +1,3 @@
-### 브라우저 동작 방식
-#### HTTP 요청 흐름
-1. 브라우저 주소창에 도메인 url 입력
-- URL(Uniform Resource Locator) : 인터넷에서의 자원의 위치
-    - https:// 통신에 사용된 프로토콜
-    - mydomain.com 서버의 도메인
-    - /test 요청 path
-2. 브라우저가 url의 ip주소를 찾기 위해 캐시에서 DNS 기록 확인
-    1. DNS(Domain Name Server) : url과 ip주소 매핑
-    2. DNS 쿼리는 브라우저 캐시 확인(이전에 방문한 웹 사이트의 DNS 기록을 일정 기간 저장함
-    3. 레코드가 없다면 OS에 시스템 호출을 통해 OS의 DNS 레코드 캐시에 존재하는지 화인
-    4. OS에도 레코드가 없다면 라우터에서 DNS 기록을 저장한 캐시 확인
-    5. 모든 단계에서 DNS기록을 찾지 못한 경우 ISP(Internet Service Provider)의 DNS 서버 확인
-    6. 위와 같은 캐싱 정보를 통해 네트워크 트래픽 규제 & 데이터 전송 시간 개선
-    7. ISP의 DNS 서버를 DNS Recursor라고 함 / 다른 DNS 서버는 Name Server라고 함
-    8. => maps.google.com을 입력하는 경우 -> DNS 리커서가 루트 네임 서버에 연결 -> 루트 네임 서버는 리커서를 .com 도메인 네임 서버로 리디렉션 -> .com 네임 서버는 google.com 네임 서버로 리디렉션 -> google.com 네임 서버는 DNS 기록에서 maps.google.com과 일치하는 IP 주소를 찾아 DNS 리커서로 변환 & 브라우저로 보냄
-3. 인터넷 프로토콜(Internet Protocol)을 사용하여 연결 구축
-- HTTP 요청의 경우 TCP(Transmission Control Protocol) 전송 제어 프로토콜 사용
-- IP은 송신 호스트와 수신 호스트가 패킷 교환 네트워크에서 정보를 주고받는 데 사용하는 정보 위주의 규약 & OSI 네트워크 계층에서 호소트의 주소 지정과 패킷 분할 조립 기능 담당
-4. 브라우저가 웹 서버에 HTTP 요청 보냄
-5. 서버가 요청 처리 & HTTP 응답 보냄
-- Status Code
-    1. 1xx -> 정보 메시지만 나타냄(요청 받음)
-    2. 2xx -> 서버와의 요청 성공
-    3. 3xx -> 요청 완료를 위해 추가 작업 조치 필요 / 요청 리소스 URI 변경
-    4. 4xx -> 클라이언트의 request에 에러가 있음
-    5. 5xx -> 서버측 오류, request 수행 불가
-6. 브라우저가 HTML 컨텐츠 제공
-
 #### CORS(Cross-Origin Resource Sharing) - 교차 출처 리소스 공유
 - SOP(Same-Origin Policy)의 예외 조항 중 하나
 - 추가 HTTP 헤더를 사용하여 한 출처에서 실행중인 웹 애플리케이션이 다른 출처의 자원에 접근할 수 있는 권한 부여
@@ -87,25 +58,7 @@
     2. 대칭키 암호화 방식 & 공개키 암호화 방식 사용
 
 
-#### TCP(Transmisson Control Protocol)
-- 특징
-    1. 일반적으로 TCP와 IP를 함께 사용, IP가 데이터 배달 처리, TCP는 패킷 추적 및 관리
-    2. 신뢰성 있는 데이터 전송 / 연결 지향형 프로토콜
-    3. 3way handshake로 연결 / 4way handshake로 연결 해제
-    4. 흐름 제어, 혼잡 제어, 오류 제어로 신뢰성 보장
-    5. 전송 순서 보장, 수신 여부 확인 가능
-    6. 패킷 전송에서 논리적 경로 배정 / 수신측에선 패킷 재조립
-    7. HTTP통신 / 이메일 / 파일 전송 등에 사용
-- 흐름 제어
-    1. 송신측과 수신측 사이의 데이터 처리 속도 차이 해결 기법
-    2. 송신측과 수신측의 TCP버퍼 크기 차이로 인해 생기는 데이터 처리 문제 해결
-        1. Stop & Wait
-            - 전송한 패킷에 대한 응답(ACK)를 받으면 다음 패킷 전송(비효율적)
-        2. Sliding Window
-            1. 수신측에서 설정한 윈도우 크기만큼 송신 측에서 확인 응답(ACK) 없이 패킷을 전송할 수 있게 하여 데이터 흐름을 동적으로 조절하는 제어 기법
-            2. 최초의 윈도우 크기는 호스트들의 3way handshaking을 통해 수신측 윈도우 크기로 설정 -> 이후 수신축의 버퍼에 남아있는 공간에 따라 변경
-            3. 윈도우 크기는 수신측에서 송신측으로 확인(ACK)를 보낼 때 헤더에 담아 보냄
-            4. 윈도우에 포함된 패킷 전송 & 수신측으로부터 확인 응답(ACK)가 오면 윈도우를 옆으로 옮겨 다음 패킷 전송
+<!-- 07.05 -->
 
 #### 브라우저 컴포넌트
 - 사용자 인터페이스(UI) : 요청한 페이지를 보여주는 창 외의 모든 UI / 주소창, 뒤로가기, 앞으로 가기, 북마크, 환경설정 ...
@@ -137,11 +90,101 @@
                 - Parse Tree는 HTML 코드를 트리 구조로 구조화한 것
                 - 브라우저는 이 Parse Tree를 이용해 DOM(Document Object Model) 트리 새로 구축
                 - Parse Tree는 단순히 문자열 구조화 / DOM 트리는 상호작용할 수 있는 HTML 엘리먼트로 이루어짐
+                - HTML 파서는 네트워크를 통해 먼저 받아온 코드부터 해석 & 실행 가능
                 - HTML 파서 특징
                     - 자체적으로 에러 복구 시도
-                        - ex) <html> 태그 없거나, 닫는 태그 없거나, 어트리뷰트 쌍따옴표 없이 사용 ... -> 교정 시도
+                        - ex) html 태그 없거나, 닫는 태그 없거나, 어트리뷰트 쌍따옴표 없이 사용 ... -> 교정 시도
                         - HTML Document Type Definition(DTD)에 의해 정의됨
                     - 파싱 과정이 중단될 수 있음
-    - 렌더 트리 구축
+                        - 파싱 도중 script, link 같은 외부 태그를 만나면 파싱 중단 & 해석 실행
+                        - 태그가 외부 파일을 참조하는 경우 다운로드 & 해석 시작
+                        - 외부 컨텐츠 해석 어려운 경우 & script가 DOM을 직접 수정하는 경우 존재 가능성 -> 외부 컨텐츠 먼저 해석
+                    - 재시작
+                        - 외부 요인으로 DOM이 추가, 변경, 삭제될 수 있음 -> 처음부터 다시 파싱
+                        - 바이트를 문자로 변환 & 토큰 식별 & 노드 변환 -> DOM 트리 빌드
+            - CSS 파싱
+                - 공식적인 명세 존재 -> HTML에 비해 단순
+                - CSS 링크 코드가 HTML 코드 내에 삽입 -> HTML 파싱 도중에 CSS 파싱
+                - HTML 파서와 달리, 전체 파일을 모두 다운로드할 때까지 파싱 시작 불가능
+                - 코드에서 명세한 내용과 순서를 바탕으로 DOM과 같은 트리 구성 -> CSSOM(CSS Object Model) 트리라고 함
+                - 이 트리에 스타일, 규칙, 선택자 정보 
+    - 렌더 트리(프레임 트리) 구축
+        - 화면에 나타나는 요소 결정
+        - 어떤 요소, 어떤 스타일, 어떤 순서 명세
+        - DOM 트리 + CSSOM 트리 조합으로 만들어짐
+        - 시각적으로 보이지 않는 엘리먼트가 존재 -> DOM 트리와 1:1 매칭 구조는 아님
     - 레이아웃 | 리플로우
+        - 렌더 트리에서 계산되지 않았던 노드 크기, 위치, 레이어 순서 정보 계산 & 좌표에 나타냄
+        - HTML의 루트 오브젝트로부터 재귀적으로 실행
+        - 계산 범위에 따라 Global Layout, Incremental Layout으로 구분 가능
+            - Global Layout
+                - 화면 전체 레이아웃 계산
+                - ex) 새로운 폰트 적용, 폰트 사이즈 변경, 뷰포트 사이즈 변경
+                - 모든 렌더 트리 노드에 대해 기하학적인 계산 수행 -> 노드가 많을수록 속도 저하
+                - 자체적인 최적화 로직 필요 -> 더티 비트 시스템(특정 엘리먼트 레이아웃 변경 -> 특정 부분만 다시 계산)
+            - Incremental Layout
+                - 더티 비트 시스템 활용
+                - 레이아웃 렌더 트리를 재귀적으로 탐색 -> 더티한 엘리멘트(레이아웃 변경 엘리먼트) 발견 -> 계산을 즉시 실행X -> 스케줄러로 비동기 일괄 작업 진행(연산 횟수, 범위 감소)
+            - **_DOM의 레이아웃과 관련된 값을 직접 읽어오거나 변화를 주는 JavaScript 코드 작성 시 구문을 묶는 것이 좋음_**
+            ```JavaScript
+            const divWidth = div1.clientWidth;
+            div2.style.width = `${divWidth}px`;
+            const divHeight = div1.clientHeight;
+            div2.style.height = `${divHeight}px`;
+            ```
+            위의 코드는 div2 너비 변경 후 div1의 높이를 불러옴 -> 레이아웃 변경 발생 가능성 -> 불필요한 계산 추가
+            ```JavaScript
+            const divWidth = div1.clientWidth;
+            const divHeight = div1. clientHeight;
+            div2.style.width = `${divWidth}px`;
+            div2.style.height = `${divHeight}px`;
+            ```
     - 페인트
+        - 레이아웃 단계를 통해 화면에 배치된 엘리먼트에 색을 입히고 레이어 위치 결정
+        - 루트 오브젝트로부터 재귀적으로 실행
+        - 마찬가지로 Global Painting, Incremental Painting whswo
+        - z-index 가 낮은 순서대로 먼저 페인팅
+        - background-color -> background-image -> border -> children -> outline 순서대로 페인팅
+- **_렌더링 단계 중 가장 비용이 많이 드는 단계는 레이아웃, 페인팅 단계 -> 두 연산 최소화 과정이 최적화 과정_**
+
+
+### 브라우저 동작 방식
+#### HTTP 요청 흐름
+1. 브라우저 주소창에 도메인 url 입력
+- URL(Uniform Resource Locator) : 인터넷에서의 자원의 위치
+    - https:// 통신에 사용된 프로토콜
+    - mydomain.com 서버의 도메인
+    - /test 요청 path
+2. 브라우저가 url의 ip주소를 찾기 위해 캐시에서 DNS 기록 확인
+    - DNS(Domain Name Server) : url과 ip주소 매핑
+    1. DNS 쿼리는 브라우저 캐시 확인(이전에 방문한 웹 사이트의 DNS 기록을 일정 기간 저장)
+    2. 레코드가 없다면 OS에 시스템 호출을 통해 OS의 DNS 레코드 캐시에 존재하는지 화인
+    3. OS에도 레코드가 없다면 라우터에서 DNS 기록을 저장한 캐시 확인
+    4. 모든 단계에서 DNS기록을 찾지 못한 경우 ISP(Internet Service Provider)의 DNS 서버 확인
+    - 캐싱 정보를 통해 네트워크 트래픽 규제 & 데이터 전송 시간 개선
+    - ISP의 DNS 서버를 DNS Recursor라고 함 / 다른 DNS 서버는 Name Server라고 함
+    => maps.google.com을 입력하는 경우 -> DNS 리커서가 루트 네임 서버에 연결 -> 루트 네임 서버는 리커서를 .com 도메인 네임 서버로 리디렉션 -> .com 네임 서버는 google.com 네임 서버로 리디렉션 -> google.com 네임 서버는 DNS 기록에서 maps.google.com과 일치하는 IP 주소를 찾아 DNS 리커서로 변환 & 브라우저로 보냄
+3. 인터넷 프로토콜(Internet Protocol)을 사용하여 연결 구축
+    - HTTP 요청의 경우 TCP(Transmission Control Protocol) 전송 제어 프로토콜 사용
+    - IP은 송신 호스트와 수신 호스트가 패킷 교환 네트워크에서 정보를 주고받는 데 사용하는 정보 위주의 규약 & OSI 네트워크 계층에서 호소트의 주소 지정과 패킷 분할 조립 기능 담당
+        - TCP(Transmisson Control Protocol)
+            1. 일반적으로 TCP와 IP를 함께 사용, IP가 데이터 배달 처리, TCP는 패킷 추적 및 관리
+            2. 신뢰성 있는 데이터 전송 / 연결 지향형 프로토콜
+            3. 3way handshake로 연결 / 4way handshake로 연결 해제
+                - 3-way-handshake
+                    1. 클라이언트는 서버에 SYN(synchronize : 연결 요청) 패킷을 보냄
+                    2. 서버에 수락할 수 있는 열린 포트 존재 시, SYN/ACK(acknowledgement: 승인) 패킷을 보냄
+                    3. 클라이언트는 SYN/ACK 패킷 수신 & ACK 패킷 전송하여 승인
+            4. 흐름 제어, 혼잡 제어, 오류 제어로 신뢰성 보장
+            5. 전송 순서 보장, 수신 여부 확인 가능
+            6. 패킷 전송에서 논리적 경로 배정 / 수신측에선 패킷 재조립
+            7. HTTP통신 / 이메일 / 파일 전송 등에 사용
+4. 브라우저가 웹 서버에 HTTP 요청 보냄
+5. 서버가 요청 처리 & HTTP 응답 보냄
+- Status Code
+    1. 1xx -> 정보 메시지만 나타냄(요청 받음)
+    2. 2xx -> 서버와의 요청 성공
+    3. 3xx -> 요청 완료를 위해 추가 작업 조치 필요 / 요청 리소스 URI 변경
+    4. 4xx -> 클라이언트의 request에 에러가 있음
+    5. 5xx -> 서버측 오류, request 수행 불가
+6. 브라우저가 HTML 컨텐츠 제공
