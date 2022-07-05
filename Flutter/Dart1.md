@@ -43,7 +43,13 @@
         1. 좌항이 null이 아니면 좌항 값 리턴 / null이면 우항 값 리턴
 - 캐스케이드 표기법
     1. .. => 객체의 속성이나 멤버 함수를 연속으로 호출할 때 유용
-    2. ..name = ‘A’ \n ..setAge(25) \n ..showInfo() 처럼 사용 가능
+    ```dart
+    Employee employee = Employee()
+    ..name = 'Kim'
+    ..setAge(25)
+    ..showInfo()
+    ```
+
 - 조건문
     1. switch문 -> break 주의 / default 처리
     2. assert(조건식) -> 조건식이 거짓이면 에러 발생
@@ -54,8 +60,21 @@
 - 생성자
     1. 기본 생성자 : 생성자를 생략 가능 / 클래스명과 동일, 인자x
     2. 이름 있는 생성자 : 생성자에 이름 부여 & 이름 있는 생성자 선언시 기본 생성자 생략 불가능
-    3. 초기화 리스트 : 생성자의 구현부 실행 전에 인스턴스 변수 초기화 가능 Person() : name = ‘Kim’ { }
+    3. 초기화 리스트 : 생성자의 구현부 실행 전에 인스턴스 변수 초기화 가능
+    ```dart
+    Person() : name = ‘Kim’ { }
+    ```
+
     4. 리다이렉팅 생성자 : 메인 생성자에게 위임 가능 -> this를 통해 파라미터로 할당 가능
+    ```dart
+    Person(this.name, this.age){
+        print
+    }
+    Person.initName(String name) : this(name,20);
+    //
+    var person = Person.initName('Kim');
+    ```
+    
     5. 상수 생성자 : 인스턴스 변수가 모두 final, 생성자는 const 키워드 필수
     6. 팩토리 생성자
         - 팩토리 메소드 패턴 : 객체 생성을 캡슐화 & 서브 클래스에서 어떤 클래스를 만들지 결정
