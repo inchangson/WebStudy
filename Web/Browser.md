@@ -10,6 +10,10 @@
     - 쿠키 : HTTP의 비상태성 해결 용도 / 클라이언트의 웹 브라우저가 지정하는 메모리, 하드디스크에 저장
     - 세션 : HTTP의 비상태성 해결 용도 / 서버의 메모리에 저장
 
+![브라우저 컴포넌트](https://yozm.wishket.com/media/news/1338/image002.png "브라우저 컴포넌트")
+<br>
+출처 : https://yozm.wishket.com/media/news/1338/image002.png
+
 #### 렌더링 엔진의 동작 과정
 - 간단 요약
     1. 렌더링 엔진은 서버로부터 응답받은 HTML 문서를 받아옴
@@ -131,6 +135,6 @@
 
 *****
 #### 참고
-https://yozm.wishket.com/magazine/detail/1338/
-https://velog.io/@khy226/브라우저에-url을-입력하면-어떤일이-벌어질까
+https://yozm.wishket.com/magazine/detail/1338/ <br>
+https://velog.io/@khy226/브라우저에-url을-입력하면-어떤일이-벌어질까 <br>
 https://d2.naver.com/helloworld/59361
