@@ -7,6 +7,18 @@
 - nodes, objects로 표현 -> 웹 페이지를 스크립트, 프로그래밍 언어에서 사용 가능하게 연결시켜줌
 - 웹 페이지의 객체 지향 표현 & 자바스크립트, 스크립팅 언어를 이용해 DOM 수정 가능
 - 문서의 구조화된 표현
+```HTML
+<html>
+    <body>
+        <p>Hello</p>
+        <div><img src="tmp.png"/></div>
+    </body>
+</html>
+```
+- 위의 예시의 경우
+    - HTMLElement 자식 노드로 BodyElement
+    - BodyElement 자식 노드로 ParagraphElement와 DivElement
+
 
 #### DOM & JavaScript
 - DOM을 통해 JavaScript 언어는 웹 페이지 | XML 페이지 & 요소들과 관련된 모델이나 개념들에 접근 가능
@@ -77,3 +89,10 @@ targetElement.insertAdjacentElement('where', newElement);
 parentElement.removeChild();
 parentElement.remove();
 ```
+
+
+*****
+#### 참고
+https://developer.mozilla.org/ko/docs/Web/API/Document_Object_Model/Introduction
+https://iamdaeyun.tistory.com/entry/DOM-01Document-Object-Model-DOM의-뜻
+https://www.youtube.com/watch?v=zyz1eJJjsNE

@@ -35,6 +35,8 @@
             - 서버에선 Access-Control-Allow-Credentials: true 옵션 추가
             -> http request header에 쿠키 정보 추가 & 받아오기
         - credentials 옵션을 통해 요청에 인증과 관련된 정보를 담을 수 있음(HTTP cookies, HTTP Authentication 정보)
+
+
 - HTTP 응답 헤더
     - Access-Control-Allow-Origin 
         - 서버가 단일 출처를 지정하여 해당 출처가 리소스에 접근하도록 허용
@@ -56,3 +58,12 @@
     - origin : cross-site 접근 요청 | preflight request 출처 | origin 요청이 시작된 서버를 나타내는 URI
     - Access-Control-Request-Method : 어떤 HTTP 메소드를 사용할지 서버에게 알려주기 위해 preflight request할 때 사용
     - Access-Control-Request-Headers : 실제 요청에서 어떤 HTTP 헤더를 사용할지 서버에게 알려주기 위해 preflight request할 때 사용
+
+
+*****
+#### 참고
+https://developer.mozilla.org/ko/docs/Web/HTTP/CORS
+https://evan-moon.github.io/2020/05/21/about-cors/
+https://inpa.tistory.com/entry/WEB-📚-CORS-💯-정리-해결-방법-👏
+https://willseungh0.tistory.com/170
+https://velog.io/@hustle-dev/JavaScript-CORS
