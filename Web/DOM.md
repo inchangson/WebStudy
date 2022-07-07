@@ -93,6 +93,6 @@ parentElement.remove();
 
 *****
 #### 참고
-https://developer.mozilla.org/ko/docs/Web/API/Document_Object_Model/Introduction
-https://iamdaeyun.tistory.com/entry/DOM-01Document-Object-Model-DOM의-뜻
+https://developer.mozilla.org/ko/docs/Web/API/Document_Object_Model/Introduction <br>
+https://iamdaeyun.tistory.com/entry/DOM-01Document-Object-Model-DOM의-뜻 <br>
 https://www.youtube.com/watch?v=zyz1eJJjsNE
