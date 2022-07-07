@@ -9,8 +9,7 @@
 - 자료 저장소 : 브라우저 자체에서 하드디스크와 같이 데이터를 로컬에 저장하기 위한 레이어 / 쿠키, 로컬 스토리지, 세션 스토리지, IndexedDB, 웹 SQL 등에 접근, 저장
     - 쿠키 : HTTP의 비상태성 해결 용도 / 클라이언트의 웹 브라우저가 지정하는 메모리, 하드디스크에 저장
     - 세션 : HTTP의 비상태성 해결 용도 / 서버의 메모리에 저장
-
-<p align="center">![브라우저 컴포넌트](https://yozm.wishket.com/media/news/1338/image002.png "브라우저 컴포넌트")</p>
+<p align="center"><img src="https://yozm.wishket.com/media/news/1338/image002.png"></p>
 <br>
 
 
@@ -44,14 +43,14 @@
                     - 재시작
                         - 외부 요인으로 DOM이 추가, 변경, 삭제되는 경우 처음부터 다시 파싱
                         - 바이트 -> 문자 -> 토큰 식별 -> 노드 변환 -> DOM 트리 빌드 과정을 다시 진행(많은 시간 소요)
-                        <p align="center">![파싱 과정](https://yozm.wishket.com/media/news/1338/image004.png "파싱 과정")</p>
+                        <p align="center">><img src="https://yozm.wishket.com/media/news/1338/image004.png"></p>
             - CSS 파싱
                 - 공식적인 명세 존재 -> HTML에 비해 단순
                 - CSS 링크 코드가 HTML 코드 내에 삽입 -> HTML 파싱 도중에 CSS 파싱
                 - 전체 파일 다운로드가 완료되면 파싱 진행
                 - 코드에서 명세한 내용과 순서를 바탕으로 DOM과 같은 트리 구성 -> CSSOM(CSS Object Model) 트리라고 함
                 - 이 트리에 스타일, 규칙, 선택자 정보 
-                <p align="center">![CSSOM](https://yozm.wishket.com/media/news/1338/image006.png "CSSOM")</p>
+                <p align="center">><img src="https://yozm.wishket.com/media/news/1338/image006.png"></p>
     2. 렌더 트리(프레임 트리) 구축
         - 화면에 나타나는 요소 결정
         - 어떤 요소, 어떤 스타일, 어떤 순서 명세
@@ -120,7 +119,7 @@
                     1. 클라이언트는 서버에 SYN(synchronize : 연결 요청) 패킷을 보냄
                     2. 서버에 수락할 수 있는 열린 포트 존재 시, SYN/ACK(acknowledgement: 승인) 패킷을 보냄
                     3. 클라이언트는 SYN/ACK 패킷 수신 & ACK 패킷 전송하여 승인
-                    <p align="center">![3 way handshake](https://www.techopedia.com/images/uploads/ad900dc1-ad94-4c7b-a3f8-154ad27c35f1.png "3 way handshake")</p>                  
+                    <p align="center">><img src="https://www.techopedia.com/images/uploads/ad900dc1-ad94-4c7b-a3f8-154ad27c35f1.png"></p>                  
             4. 흐름 제어, 혼잡 제어, 오류 제어로 신뢰성 보장
             5. 전송 순서 보장, 수신 여부 확인 가능
             6. 패킷 전송에서 논리적 경로 배정 / 수신측에선 패킷 재조립
