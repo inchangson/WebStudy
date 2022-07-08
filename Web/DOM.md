@@ -3,6 +3,7 @@
 - 문서 객체 모델(Document Object Model)
 - HTML, XML 문서의 프로그래밍 interface
     - 브라우저는 HTML 코드 해석 -> 요소들을 트리 형태로 구조화 & 표현 문서(데이터) 생성 -> 이를 DOM이라고 함
+    <p align="center"><img src="https://stalker5217.github.io/assets/images/javascript/DOM_tree.gif"></p>
     - DOM을 통해 웹 컨텐츠 렌더링 & 컨텐츠 추가, 수정, 삭제, 이벤트 처리 ...
 - nodes, objects로 표현 -> 웹 페이지를 스크립트, 프로그래밍 언어에서 사용 가능하게 연결시켜줌
 - 웹 페이지의 객체 지향 표현 & 자바스크립트, 스크립팅 언어를 이용해 DOM 수정 가능
@@ -93,6 +94,7 @@ parentElement.remove();
 
 *****
 #### 참고
+https://stalker5217.github.io/javascript/ObjectModel/<br>
 https://developer.mozilla.org/ko/docs/Web/API/Document_Object_Model/Introduction <br>
 https://iamdaeyun.tistory.com/entry/DOM-01Document-Object-Model-DOM의-뜻 <br>
 https://www.youtube.com/watch?v=zyz1eJJjsNE
