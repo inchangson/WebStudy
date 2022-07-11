@@ -60,6 +60,9 @@
     alert(1 && 0); //0
     alert(null && 5); //null
     alert(1 && 5); //5  
+- nullish 병합 연산자 ??
+    - a ?? b
+    - a가 null도 아니고 undefined도 아니면 a 반환 / 그 외의 경우는 b 반환
 
 #### 함수
 - 화살표 함수
@@ -108,9 +111,9 @@ arr.forEach(n=>{
 const arr[1,2,3,4,5];
 const square = n => n * n;
 const squared = arr.map(square);
+// map 함수의 파라미터에 변화를 주는 함수 전달
 // const squared = arr.map(n => n * n); 가능
 ```
-    - map 함수의 파라미터에 변화를 주는 함수 전달
 - indexOf
     - indexOf 함수로 원하는 항목이 몇번째 원소인지 찾을 수 있음
 - findIndex
@@ -245,16 +248,31 @@ const myPromise = new Promise((resolve, reject)=>{
 result = prompt(title, [default]);
 //title : 사용자에게 보여줄 문자열, default 필드의 초깃값(선택값)
 ```
-    - 사용자는 원하는 값 입력 후 확인 | 취소 선택 가능
-    - 확인을 누르면 prompt 함수는 사용자 입력 문자 반환
-    - 취소를 누르면 null을 반환
+- 사용자는 원하는 값 입력 후 확인 | 취소 선택 가능
+- 확인을 누르면 prompt 함수는 사용자 입력 문자 반환
+- 취소를 누르면 null을 반환
 - confirm
 ```javascript
 result = confirm(question);
 //question : 사용자에게 보여줄 문자열
 ```
-    - 사용자는 확인 | 취소 선택 가능
-    - 확인을 누르면 true 반환
-    - 취소를 누르면 false 반환
+- 사용자는 확인 | 취소 선택 가능
+- 확인을 누르면 true 반환
+- 취소를 누르면 false 반환
 
-#### 
+#### 함수 표현식 vs 함수 선언문
+- 함수 선언문 : 함수는 주요 코드 흐름 중간에 독자적인 구문 형태로 존재
+```javascript
+function sum(a,b){
+    return a+b;
+}
+```
+- 함수 표현식 : 표현식이나 구문 구성 내부에 생성
+```javascript
+let sum = function(a,b){
+    return a+b;
+};
+```
+- 자바스크립트 엔진이 함수 생성 시기가 다름
+    - 함수 표현식의 경우 실제 실행 흐름이 해당 함수에 도달했을 때 함수 생성(실행 흐름이 함수에 도달했을 때 함수 사용 가능)
+    - 함수 선언문의 경우 스크립트 어디에 있든 사용 가능 -> 초기화 단계에서 함수 선언 방식으로 함수 생성
