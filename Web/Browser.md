@@ -76,7 +76,7 @@
             const divHeight = div1.clientHeight;
             div2.style.height = `${divHeight}px`;
             ```
-            위의 코드는 div2 너비 변경 후 div1의 높이를 불러옴 -> 레이아웃 변경 발생 가능성 -> 불필요한 계산 추가
+            위의 코드는 div2 너비 변경 후 div1의 높이를 불러옴 -> 레이아웃 변경 발생 가능성 -> 스케줄링 등록 -> 불필요한 계산 추가
             ```JavaScript
             const divWidth = div1.clientWidth;
             const divHeight = div1. clientHeight;
