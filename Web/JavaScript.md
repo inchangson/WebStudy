@@ -276,3 +276,116 @@ let sum = function(a,b){
 - 자바스크립트 엔진이 함수 생성 시기가 다름
     - 함수 표현식의 경우 실제 실행 흐름이 해당 함수에 도달했을 때 함수 생성(실행 흐름이 함수에 도달했을 때 함수 사용 가능)
     - 함수 선언문의 경우 스크립트 어디에 있든 사용 가능 -> 초기화 단계에서 함수 선언 방식으로 함수 생성
+
+
+#### 객체
+- {...} -> key(문자형) : value(모든 자료형) 쌍으로 존재
+- const로 선언된 객체는 수정될 수 있음(객체 전체를 바꾸려고 할 때만 에러 발생) -> 프로퍼티 하나 변경 시 에러 발생x
+- 프로퍼티 값 단축 구문을 사용하여 선언도 가능
+```javascript
+return {
+    name: name,
+    age: age,
+};
+//
+return {
+    name,
+    age,
+};// 같은 의미
+```
+- 객체 프로퍼티에는 예약어를 사용할 수 있음
+- in 연산자를 통해 object 안에 해당 프로퍼티가 존재하는지 확인할 수 있음
+- for ... in 반복문
+```javascript
+for(let key in user){
+    alert(key);
+    alert(user[key]);
+    //모든 프로퍼티, 프로퍼티에 해당하는 value 출력
+}
+```
+- 객체 정렬 방식
+    - 정수 프로퍼티 : 변형 없이 정수 <-> 문자열 가능한 문자열(문자열의 변형 없이 사용 가능 ex. "49")
+    - 정수 프로퍼티의 경우 자동으로 정렬, 이외의 문자형은 객체에 추가한 순서대로 정렬
+    - 정수 프로퍼티를 사용하고 싶은 경우 "+49" 방식으로 작성하면 이는 정수 프로퍼티에 해당되지 않기 때문에 입력한대로 사용 가능
+- 객체의 참조와 복사
+    - 객체는 참조에 의해 저장되고 복사됨
+    - 참조하고 있는 객체가 다르면 내용이 프로퍼티와 값이 동일해도 == 연산에서 false가 출력됨
+    - 객체를 복사하고 싶다면 for...in 반복문을 돌거나 Object.assign 사용 가능
+- 가비지 컬렉션
+    - 도달 가능성이 있는 값은 메모리에서 삭제되지 않음
+    - root 값에서 도달 가능한 값만 메모리에 보존
+        - 현재 함수의 지역 변수와 매개변수
+        - 중첩 함수의 체인에 있는 함수에서 사용되는 변수와 매개변수
+        - 전역 변수
+- this
+    - this의 값은 런타임에 결정됨
+    - 함수를 선언할 때 this를 사용할 수 있지만 함수가 호출되기 전까지 this엔 값 할당 x
+- 옵셔널 체이닝
+    - ?. (연산자는 아니고 문법 구조체)을 사용하여 프로퍼티가 없는 중첩 객체를 에러 없이 안전하게 접근 가능
+    - 기존에는 && 연산을 통해 정보가 없는 경우 undefined 에러 발생 여부로 판단
+    - 옵셔널 체이닝을 사용하면 '앞'의 대상이 undefined나 null이면 평가를 멈추고 undefined 반환
+    ```javascript
+    let user = {};
+    alert(user?.address?.street); //undefined, 에러 x
+    alert(user?.address.street); //undefined, 에러 x
+    ```
+    - user가 null이나 undefined가 아니고 실제 값이 존재하는 경우엔 user.address 프로퍼티가 존재해야함
+    - 그렇지 않으면 user?.address.street의 두 번째 점 연산자에서 에러 발생
+    - 왼쪽 평가대상에 값이 없으면 즉시 평가를 멈춤(오른쪽에 있는 부가동작 발생 x)
+    ```javascript
+    let user1 = {
+        firstName: "Violet"
+    };
+    let user2 = null;
+    let key = "firstName";
+    alert ( user1?.[key] ); //Violet
+    alert ( user2?.[key] ); //undefined
+- 심볼
+    - 심볼을 통해 유일한 식별자를 만들 수 있음
+    ```javascript
+    let id1 = Symbol("id");
+    let id2 = Symbol("id");
+    alert(id1 == id2);//false
+    ```
+    - 심볼은 유일성 보장 -> 제3의 스크립트에서 만든 식별자와 충돌하지 않음
+    - 객체의 경우 대괄호를 사용하여 심볼형 키를 만들어야함
+    ```javascript
+    let id = Symbol("id");
+    let user = {
+        name: "John",
+        [id]: 123 // "id": 123으로는 불가능
+    };
+    ```
+    - 심볼은 for..in 반복문에서 배제됨
+    - Object.assign의 경우 심볼 프로퍼티까지 복사
+    - Symbol.for("input")을 사용하면 전역 심볼로 선언할 수 있음
+    ```javascript
+    let id = Symbol.for("id");
+    let idAgain = Symbol.for("id");
+    alert(id===idAgain); //true
+    ```
+    - 전역 심볼의 경우는 Symbol.keyFor(sym)을 사용하면 이름을 얻을 수 있음
+
+
+#### 자료구조와 자료형
+- 숫자형
+    - e : 10의 거듭제곱 표현
+    - 0x : 16진수 표현
+    - 0b : 2진수 표현
+    - 0o : 8진수 표현
+    - num.toString(base) : base 진법으로 num을 표현한 후 문자형으로 변환
+    ```javascript
+    1e3 // 1 * 1000;
+    1.23e6 // 1.23 * 1000000
+    0xff // 255
+    0b11111111 // 255
+    0o377 // 255
+    let num = 255;
+    num.toString(16) // ff
+    num.toString(2) // 11111111
+    parseInt('0xff',16); //255
+    parseInt('ff',16); //255
+    ```
+- 문자열
+    - 줄바꿈 기호 '\n',"\n" 대신에 ` `안에 직접 줄 바꿈을 넣어서 줄 바꿈 표현 가능
+    -  
