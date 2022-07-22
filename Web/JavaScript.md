@@ -114,10 +114,15 @@ const squared = arr.map(square);
 // map 함수의 파라미터에 변화를 주는 함수 전달
 // const squared = arr.map(n => n * n); 가능
 ```
-- indexOf
-    - indexOf 함수로 원하는 항목이 몇번째 원소인지 찾을 수 있음
+- str.indexOf(substr, pos) 메소드를 사용해 부분 문자열 찾기 가능
+    - 원하는 부분 발견 시 시작 인덱스 반환
+    - 찾지 못한 경우 -1 반환
+    - pos에는 몇번째 인덱스부터 검색할지 지정 가능
+- str.startsWith, str.endsWith를 통해 부분 문자열로 시작하는지 | 끝나는지 true, false로 반환 받을 수 있음
+- str.substring(start, end)를 통해 부분 문자열 추출 가능(slice와 다르게 start가 end보다 커도 됨)
+- str.substr(start, length)를 통해 start부터 length개의 문자 반환
 - findIndex
-    - findIndex 함수로 객체나 배열 안에 존재하는 항목까지 찾을 수 있음
+    - findIndex 함수로 객체나 배열 안에 존재하는 항목까지 찾을 수 있음(첫번째 인덱스, 없으면 -1)
     - 조건을 반환하는 함수를 넣어서 검사
     ```javascript
     const index = todos.findIndex(todo=>todo.id===3);
@@ -162,15 +167,8 @@ const squared = arr.map(square);
 - includes
     ```javascript
     const isAnimal = name => ['고양이','개','거북이','너구리'].includes(name);
+    //true | false 반환
     ```
-- str.indexOf(substr, pos) 메소드를 사용해 부분 문자열 찾기 가능
-    - 원하는 부분 발견 시 시작 인덱스 반환
-    - 찾지 못한 경우 -1 반환
-    - pos에는 몇번째 인덱스부터 검색할지 지정 가능
-- str.includes(substr, pos) 메소드를 사용해 부분 문자열이 있는지 true, false로 반환 받을 수 있음
-- str.startsWith, str.endsWith를 통해 부분 문자열로 시작하는지 | 끝나는지 true, false로 반환 받을 수 있음
-- str.substring(start, end)를 통해 부분 문자열 추출 가능(slice와 다르게 start가 end보다 커도 됨)
-- str.substr(start, length)를 통해 start부터 length개의 문자 반환
 
 #### 프로토타입과 클래스
 - 프로토타입
@@ -194,8 +192,6 @@ const squared = arr.map(square);
     - 클래스 내부 함수를 '메서드' => 자동으로 prototype으로 등록
     - extends를 통해 상속
     - constructor로 초기화 가능
-
-#### 비구조화 할당
 
 #### Spread
 ```javascript
@@ -221,7 +217,7 @@ const purpleCuteSlime = {
 };
 const {color, ...cuteSlime} = purpleCuteSlime;
 ```
-- color에는 purple이, cuteSlime에는 {name:"슬라임", attribute:"cute"}라는 object가 저장
+- color에는 'purple'이, cuteSlime에는 {name:"슬라임", attribute:"cute"}라는 object가 저장
 ```javascript
 const numbers = [0,1,2,3,4,5];
 const [one, ...rest] = numbers;
@@ -242,16 +238,8 @@ const [one, ...rest] = numbers;
 - Hoisting이 발생하는 코드는 이해도 어렵고 유지보수가 어려움 -> 방지하는 것이 좋음
 - var 대신 const, let을 위주로 사용하는 것이 좋음(const와 let은 변수 생성과정이 달라서 엑세스 불가 에러 발생)
 
-#### 비동기 처리
-- Promise
-```javascript
-const myPromise = new Promise((resolve, reject)=>{
-    //구현 내용
-})
-```
-
 #### 상호작용
-- alert : '모달 창(modal window)' -> 등장하는 페이지 외의 버튼을 누르거나 밖의 요소와 상호작용 불가능
+- alert : 등장하는 페이지 외의 버튼을 누르거나 밖의 요소와 상호작용 불가능
 - prompt 
 ```javascript
 result = prompt(title, [default]);
@@ -329,6 +317,18 @@ for(let key in user){
 - this
     - this의 값은 런타임에 결정됨
     - 함수를 선언할 때 this를 사용할 수 있지만 함수가 호출되기 전까지 this엔 값 할당 x
+    - 동일한 함수라도 다른 객체에서 호출한 경우 'this'가 참조하는 값이 달라짐
+    ```javascript
+    let user = {name: "John"};
+    let admin = {name: "Admin"};
+    function sayHi(){
+        alert(this.name);
+    }
+    user.f = sayHi;
+    admin.f = sayHi;
+    user.f(); //John
+    admin.f(); //Admin
+    ```
 - 옵셔널 체이닝
     - ?. (연산자는 아니고 문법 구조체)을 사용하여 프로퍼티가 없는 중첩 객체를 에러 없이 안전하게 접근 가능
     - 기존에는 && 연산을 통해 정보가 없는 경우 undefined 에러 발생 여부로 판단
@@ -429,11 +429,34 @@ for(let key in user){
 - 동기 / 비동기
     - JavaScript는 기본적으로 동기식 언어(단일 쓰레드, 한 작업동안 다른 작업 대기)
     - JavaScript의 엔진은 Call Stack에 쌓이고 호출되는 구조 
-    - 엔진 사용뿐만 아니라 web API도 사용 가능 -> 이를 제어하기 위해 이벤트 루프, 이벤트 큐 사용
+    - 엔진 사용뿐만 아니라 web API도 사용 가능 -> 이를 제어하기 위해 이벤트 루프, 이벤트 큐 사용(비동기로 사용 가능)
     - 비동기 함수 사용시 -> web API에서 실행 & Call Stack에선 제거 -> web API에서 작업 완료 -> call back을 task queue에 넣음 -> Call Stack이 빌 경우 task queue의 첫번째 요소를 Call Stack에 넣어 결과 실행 -> Call Stack에서 제거
 - 비동기 활용
     1. 콜백 함수를 통한 비동기 처리
-    - setTimeout()과 같은 비동기 함수를 호출 -> 지정 시간동안 기다린 후에 첫번째 인자로 들어온 콜백 함수 실행 -> 실행 완료까지 기다리지 않고 다음 함수 실행 후 콜백 함수 실행
+    - 예를 들어 스크립트나 모듈을 로딩하는 것도 비동기 동작
+    ```javascript
+    function loadScript(src) {
+        let script = document.createElement('script');
+        script.src = src;
+        document.head.append(script);
+    }
+    //DOM을 활용하여 script 추가
+    loadScript('/my/script.js'); 
+    //script.js 파일에 존재하는 함수 호출
+    newFunction(); 
+    ```
+    - 스크립트가 비동기적으로 실행되기 때문에 스크립트가 완전히 로딩되기 전에 함수가 호출될 경우 에러 발생
+    ```javascript
+    function loadScript(src, callback) { //callback 함수는 나중에 호출할 함수를 의미
+        let script = document.createElement('script');
+        script.src = src;
+        script.onload = () => callback(script);
+        document.head.append(script);
+    }
+    loadScript('/my/script.js', function() {
+        newFunction(); 
+    });
+    ```
     - 가독성이 떨어지는 문제
     - 콜백 지옥 -> 비동기 처리 로직을 위해 콜백 함수를 연속해서 사용(함수의 결과값을 다른 함수의 파라미터로 활용 반복)
     2. Promise의 활용
