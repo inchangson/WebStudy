@@ -122,6 +122,7 @@ const squared = arr.map(square);
     ```javascript
     const index = todos.findIndex(todo=>todo.id===3);
     // todos에서 id가 3인 객체의 인덱스 반환
+    ```
 - find
     - findIndex 와 비슷하지만 인덱스 번호를 리턴해주는 것이 아니라 찾아낸 값 자체를 반환해줌
 - filter
@@ -162,6 +163,14 @@ const squared = arr.map(square);
     ```javascript
     const isAnimal = name => ['고양이','개','거북이','너구리'].includes(name);
     ```
+- str.indexOf(substr, pos) 메소드를 사용해 부분 문자열 찾기 가능
+    - 원하는 부분 발견 시 시작 인덱스 반환
+    - 찾지 못한 경우 -1 반환
+    - pos에는 몇번째 인덱스부터 검색할지 지정 가능
+- str.includes(substr, pos) 메소드를 사용해 부분 문자열이 있는지 true, false로 반환 받을 수 있음
+- str.startsWith, str.endsWith를 통해 부분 문자열로 시작하는지 | 끝나는지 true, false로 반환 받을 수 있음
+- str.substring(start, end)를 통해 부분 문자열 추출 가능(slice와 다르게 start가 end보다 커도 됨)
+- str.substr(start, length)를 통해 start부터 length개의 문자 반환
 
 #### 프로토타입과 클래스
 - 프로토타입
@@ -388,4 +397,128 @@ for(let key in user){
     ```
 - 문자열
     - 줄바꿈 기호 '\n',"\n" 대신에 ` `안에 직접 줄 바꿈을 넣어서 줄 바꿈 표현 가능
-    -  
+    - ' " \ 의 경우 앞에 \를 넣어 사용 가능 | ` ` 안에 직접 넣어줄 수 있음
+    - 문자열은 수정할 수 없음
+    ```javascript
+    let str = 'test';
+    str[0] = 'T';
+    alert(str[0]); // 동작 x
+    ```
+- 배열
+    - pop연산은 끝 요소 제거 & 요소 반환
+    - push연산은 끝 요소 추가
+    - shift연산은 앞 요소 제거 & 반환 -> 느림(인덱스 0제거 & 앞으로 이동시키는 과정)
+    - unshift연산은 앞 요소를 추가 -> 느림
+    - for ... of 연산 / for ... in 연산을 통해 배열 순회 가능(for ...in 연산은 객체 대상으로 사용할 때 최적화, 모든 프로퍼티와 메소드를 대상으로 순회 - 배열에선 느림)
+<!-- 배열과 메서드 -->
+
+
+- 버블링
+    - 요소에 이벤트 발생 -> 할당된 핸들러 작동 -> 부모 요소의 핸들러 작동 -> 최상단 조상 요소까지 반복
+    ```HTML
+    <form onclick="alert('form')">FORM
+        <div onclick="alert('div')">DIV
+            <p onclick="alert('p')">p</p>
+        </div>
+    </form>
+    ```
+    - 이벤트가 발생한 가장 안쪽 요소는 event.target, 현재 요소(실행 중인 핸들러가 할당된 요소)는 this
+        - 클릭 이벤트를 예시로 들면, event.target은 실제 클릭한 요소
+        - this는 작동한 핸들러 함수가 붙어있는 요소
+    - event.stopPropagation()을 사용하면 이벤트 처리 & 버블링 중단(부모 요소로 일어나는 버블링 막아줌)
+- 동기 / 비동기
+    - JavaScript는 기본적으로 동기식 언어(단일 쓰레드, 한 작업동안 다른 작업 대기)
+    - JavaScript의 엔진은 Call Stack에 쌓이고 호출되는 구조 
+    - 엔진 사용뿐만 아니라 web API도 사용 가능 -> 이를 제어하기 위해 이벤트 루프, 이벤트 큐 사용
+    - 비동기 함수 사용시 -> web API에서 실행 & Call Stack에선 제거 -> web API에서 작업 완료 -> call back을 task queue에 넣음 -> Call Stack이 빌 경우 task queue의 첫번째 요소를 Call Stack에 넣어 결과 실행 -> Call Stack에서 제거
+- 비동기 활용
+    1. 콜백 함수를 통한 비동기 처리
+    - setTimeout()과 같은 비동기 함수를 호출 -> 지정 시간동안 기다린 후에 첫번째 인자로 들어온 콜백 함수 실행 -> 실행 완료까지 기다리지 않고 다음 함수 실행 후 콜백 함수 실행
+    - 가독성이 떨어지는 문제
+    - 콜백 지옥 -> 비동기 처리 로직을 위해 콜백 함수를 연속해서 사용(함수의 결과값을 다른 함수의 파라미터로 활용 반복)
+    2. Promise의 활용
+    - new 키워드와 생성자를 통해 생성
+    ```javascript
+    const promise = new Promise(function(resolve, reject){...});
+    function returnPromise(){
+        return new Promise((resolve,reject)=>{...});
+    }
+    ```
+    - 3가지 상태를 가짐
+        - Pending(대기) : 비동기 처리 로직이 완료되지 않은 상태
+        - Fulfilled(이행) : 비동기 처리가 완료되어 프로미스가 결과 값을 반환해준 상태(then을 활용해 처리 결과값 받기 가능)
+        - Rejected(실패) : 비동기 처리가 실패하거나 오류가 발생한 상태(catch를 활용해 실패 처리 결과값 받기 가능)
+    - 일반적으로 resolve()함수에는 미래 시점에 얻게될 결과, reject()함수에는 미래 시점에 발생할 예외를 넘겨줌
+    - then() 메소드는 결과값을 가지고 수행할 로직을 담은 콜백 함수를 인자로 받을 수 있고, catch()로 예외 처리 로직을 담은 콜백 함수를 인자로 받을 수 있음
+    - 동일한 이름 메소드인 then()을 연쇄적으로 호출로 then()의 결과값을 파라미터로 넘겨줄 수 있음 -> but, 에러 발생시 대처 어려움, 코드 가독성 떨어지는 문제점
+    ```javascript
+    new Promise(function(resolve, reject){
+        setTimeout(function() {
+            resolve(1);
+        }, 2000);
+        })
+        .then(function(result) {
+        console.log(result); // 1
+        return result + 10;
+        })
+        .then(function(result) {
+        console.log(result); // 11
+        return result + 20;
+        })
+        .then(function(result) {
+        console.log(result); // 31
+    });
+    ```
+    3. async/await 키워드 사용
+    - async 키워드를 function 앞에 붙여서 비동기 함수 선언
+    - await 키워드를 사용하여 결과값을 반환 받을 때까지 대기 설정 가능
+    - async 키워드는 Promise 객체를 생성 & 리턴
+    - try/catch로 일관되게 예외 처리 가능
+    - 만약 유저 정보를 받아와야 하는 경우
+    ```javascript
+    function logName() {
+        var user = fetchUser('domain.com/users/1');
+        if (user.id === 1) {
+            console.log(user.name);
+        }
+    }
+    //순서 보장 불가능
+    async function logName() {
+        try{
+            var user = await fetchUser('domain.com/users/1');
+            if (user.id === 1) {
+                console.log(user.name);
+            }
+        }catch(error){
+            console.log(error);
+        }        
+    }
+    //순서 보장 가능
+    ```
+- 변수 유효범위와 클로저
+    - 렉시컬 스코핑(Lexical scoping) : 스코프는 함수를 호출할 때가 아니라 함수를 어디에 선언하였는지에 따라 결정됨
+        - inner함수가 outer함수 내부에 선언된 경우(outer함수는 전역에 선언) : inner함수의 렉시컬 스코프는 전역, outer, 본인까지 참조 가능
+        - 스코프 체인 과정 : 함수 스코프에서 검색 -> 없으면 외부 함수 스코프 검색
+    ```javascript
+    function outerFunc() {
+        var x = 10;
+        var innerFunc = function () { console.log(x); };
+        return innerFunc;
+    }
+
+    var inner = outerFunc();
+    inner();
+    ```
+    - outerFunc()가 innerFunc() 반환 후 사라짐 but, 코드 실행 시 10이 출력됨
+    - 외부 함수 밖에서 내부함수가 호출되더라도 외부함수의 지역 변수에 접근할 수 있는데 이러한 함수를 클로저라고 함
+    - 클로저는 반환된 내부함수가 자신이 선언됐을 때의 환경(Lexical environment)인 스코프를 기억하여 자신이 선언됐을 때의 환경 밖에서 호출되어도 그 환경에 접근할 수 있는 함수
+    - 현재 상태를 기억하고 변경된 최신 상태를 유지할 때 자주 사용(ex. 버튼 토글 상태 변경, 카운터 - 함수를 리턴하는 함수 안에 변수 선언)
+
+
+*****
+#### 참고
+https://learnjs.vlpt.us/basics/
+https://ko.javascript.info/
+https://www.daleseo.com/js-async-callback/
+https://joshua1988.github.io/web-development/javascript/promise-for-beginners/
+https://poiemaweb.com/js-closure
