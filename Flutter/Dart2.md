@@ -127,7 +127,7 @@ class Developer implements Person{
     - 모든 코드가 실행되는 공간
     - 싱글 쓰레드, 이벤트 루프를 통해 작업 처리
     - 다른 언어의 경우 쓰레드가 서로 메모리를 공유하는 구조
-    <p align="center"><img src="https://t1.daumcdn.net/thumb/R1280x0.fpng/?fname=h…e/user/2Kn8/image/kGl8skuXDaGhoLOtRHXaBhzFHwM.png"></p>
+    <p align="center"><img src="https://t1.daumcdn.net/thumb/R1280x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/2Kn8/image/kGl8skuXDaGhoLOtRHXaBhzFHwM.png"></p>
     - isolate의 경우 쓰레드가 자체적으로 메모리를 가지고 있음, 메모리 공유 x
     - 다른 쓰레드가 같은 작업하려면 message를 주고 받아야함 but 공유 자원에 대한 처리 필요 x
     - 새로운 isolate는 spawn을 통해 만들 수 있음
@@ -142,7 +142,7 @@ class Developer implements Person{
 - Future
     - 작업의 결과값을 나중에 받는 것
     - Future 상태
-    - <p align="center"><img src="https://t1.daumcdn.net/thumb/R1280x0.fjpg/?fname=h…e/user/2Kn8/image/0EjTckKUpPO1rfL9EHJvBtkMQB4.PNG"></p>
+    - <p align="center"><img src="https://t1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/2Kn8/image/0EjTckKUpPO1rfL9EHJvBtkMQB4.PNG"></p>
         - Uncompleted : future 객체를 만들어서 작업을 요청한 상태
         - Completed : 요청 작업이 완료된 상태
             - data : 정상적으로 작업 수행 & 결과값 리턴
