@@ -57,7 +57,6 @@ class Developer implements Person{
 
 #### 컬렉션
 - List
-    - 
     ```dart
     List<dynamic> tmp = ['Red', 1, 2.5];
     var tmp2 = [1, 2.5, 'Red'];
@@ -75,7 +74,6 @@ class Developer implements Person{
     - 키와 값으로 이루어짐 -> 키에 대한 값이 매칭, 빠른 탐색 가능
     - 순서가 존재하지 않지만 키로 정수를 사용하면 순서를 가진 것처럼 사용 가능
     - 키는 중복 불가능, 값은 중복 가능
-    - 
     ```dart
     Map<key type, value type> tmp = {
         key1 : value1,
@@ -99,7 +97,6 @@ class Developer implements Person{
     - 클래스 생성 시 생성자에서 사용하거나 함수 호출 시 인자 값을 전달하기 위해 사용
     - 특정 타입을 미리 지정해주는 것이 아니라 필요에 따라 지정할 수 있도록 하는 타입
     - 인자 값이 아닌 타입(List, Set, Map에서 사용한 <type>)
-    - 
     ```dart
     class Student extends Person{
         eat(){ ~~ }
@@ -131,43 +128,40 @@ class Developer implements Person{
     - isolate의 경우 쓰레드가 자체적으로 메모리를 가지고 있음, 메모리 공유 x
     - 다른 쓰레드가 같은 작업하려면 message를 주고 받아야함 but 공유 자원에 대한 처리 필요 x
     - 새로운 isolate는 spawn을 통해 만들 수 있음
-    - 
-    ```dart
-    Isolate.spawn(isolateTest, 1);
-    Isolate.spawn(isolateTest, 2);
-    ```
+```dart
+Isolate.spawn(isolateTest, 1);
+Isolate.spawn(isolateTest, 2);
+```
     - ReceivePort 객체 생성으로 isolate 간 message 주고받기 가능
-    - 
-    ```dart
-    ReceivePort mainReceivePort = new ReceivePort();
-    ```
+```dart
+ReceivePort mainReceivePort = new ReceivePort();
+```
 - Future
     - 작업의 결과값을 나중에 받는 것
     - Future 상태
-    - <p align="center"><img src="https://t1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/2Kn8/image/0EjTckKUpPO1rfL9EHJvBtkMQB4.PNG"></p>
         - Uncompleted : future 객체를 만들어서 작업을 요청한 상태
         - Completed : 요청 작업이 완료된 상태
             - data : 정상적으로 작업 수행 & 결과값 리턴
             - error : 작업 처리 중 문제 발생 시 에러 발생
+    <p align="center"><img src="https://t1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/2Kn8/image/0EjTckKUpPO1rfL9EHJvBtkMQB4.PNG"></p>
     - event loop에 의해 순차적으로 처리
         - 처음 future를 생성하고 작업을 시작하면 Uncompleted future가 event queue에 들어감
         - 다른 작업들도 event queue에 들어가면서 작업 실행
         - future가 작업을 끝내면 Completed future가 event queue에 들어가고 event loop에 의해 호출되면 결과값 처리
-    - 
-    ```dart
-    Future<T> tmp = new Future(){
-        // 작업 시작을 알리는 Uncompleted future 상태로 event queue에 들어감
-        // 별도의 쓰레드로 진행됨 
-        // return
-    }
-    tmp.then((ret){
-        //작업이 완료되면 출력됨
-        print(ret);
-    }, onError: (e){
-        //에러가 발생하면 출력됨
-        print(e);
-    });
-    ```
+```dart
+Future<T> tmp = new Future(){
+    // 작업 시작을 알리는 Uncompleted future 상태로 event queue에 들어감
+    // 별도의 쓰레드로 진행됨 
+    // return
+}
+tmp.then((ret){
+    //작업이 완료되면 출력됨
+    print(ret);
+}, onError: (e){
+    //에러가 발생하면 출력됨
+    print(e);
+});
+```
 - async, await
     - 함수명 뒤에 async 키워드를 붙임
     - await가 붙은 작업은 해당 작업이 끝날 때까지 다음으로 넘어가지 않고 대기
@@ -179,4 +173,4 @@ class Developer implements Person{
 
 *****
 #### 참고
-https://brunch.co.kr/brunchbook/dartforflutter
+https://brunch.co.kr/brunchbook/dartforflutter<br>

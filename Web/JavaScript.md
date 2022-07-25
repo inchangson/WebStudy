@@ -1,10 +1,46 @@
 ### JavaScript
+#### 자료구조와 자료형
+- 숫자형
+    - e : 10의 거듭제곱 표현
+    - 0x : 16진수 표현
+    - 0b : 2진수 표현
+    - 0o : 8진수 표현
+    - num.toString(base) : base 진법으로 num을 표현한 후 문자형으로 변환
+    ```javascript
+    1e3 // 1 * 1000;
+    1.23e6 // 1.23 * 1000000
+    0xff // 255
+    0b11111111 // 255
+    0o377 // 255
+    let num = 255;
+    num.toString(16) // ff
+    num.toString(2) // 11111111
+    parseInt('0xff',16); //255
+    parseInt('ff',16); //255
+    ```
+- 문자열
+    - 줄바꿈 기호 '\n',"\n" 대신에 ` `안에 직접 줄 바꿈을 넣어서 줄 바꿈 표현 가능
+    - ' " \ 의 경우 앞에 \를 넣어 사용 가능 | ` ` 안에 직접 넣어줄 수 있음
+    - 문자열은 수정할 수 없음
+    ```javascript
+    let str = 'test';
+    str[0] = 'T';
+    alert(str[0]); // 동작 x
+    ```
+- 배열
+    - pop연산은 끝 요소 제거 & 요소 반환
+    - push연산은 끝 요소 추가
+    - shift연산은 앞 요소 제거 & 반환 -> 느림(인덱스 0제거 & 앞으로 이동시키는 과정)
+    - unshift연산은 앞 요소를 추가 -> 느림
+    - for ... of 연산 / for ... in 연산을 통해 배열 순회 가능(for ...in 연산은 객체 대상으로 사용할 때 최적화, 모든 프로퍼티와 메소드를 대상으로 순회 - 배열에선 느림)
+
+
 #### 변수와 연산자
 - 변수명에는 문자, 숫자, 기호 $, _만 들어갈 수 있고 첫 글자는 숫자 불가능
 - 대소문자 구별함
 - ` 역따옴표로 변수나 표현식을 ${}안에 넣어서 표현식을 문자열 중간에 넣기 가능
 - let vs var
-    - var은 똑같은 이름으로 여러번 선언할 수 있음  
+    - var은 똑같은 이름으로 여러번 선언할 수 있음(에러가 발생하지 않지만 관리하기 어려움)
     - var과 달리 let은 선언문 이전에 사용하면 에러 발생(호이스팅 문제, var 선언문이나 function 선언문을 스코프의 선두로 옮긴 것처럼 동작하는 특성)
 - 연산 순서
     - not -> and -> or 순서로 처리
@@ -264,20 +300,6 @@ function sum(...rest){
 const result = sum(1,2,3,4,5,6);
 ```
 
-
-#### Scope
-- 전역(Global) : 코드의 모든 범위에서 사용 가능
-- 함수(Function) : 함수 안에서만 사용 가능
-- 블록(Block) : if, for, switch등 특정 블록 내부에서만 사용 가능
-- 함수 내부에서 같은 이름으로 새롭게 변수를 선언해도 전역 변수의 값이 바뀌진 않음
-- const와 let을 블록 내에서 선언하게 되면, 블록 내부에서만 사용 가능하고, 블록 밖에 같은 이름의 변수가 존재해도 영향을 끼치지 않음
-- var은 function scope로 선언됨 -> 블록 내부에서 선언한 value가 블록 밖의 value에도 영향을 미침 / 전역은 X
-
-#### Hoisting
-- 선언되지 않은 함수, 변수를 끌어올려서 사용(초기화, 선언이 밑에 있어도 선언은 된것으로 실행 -> undefined 상태로 돌아감)
-- Hoisting이 발생하는 코드는 이해도 어렵고 유지보수가 어려움 -> 방지하는 것이 좋음
-- var 대신 const, let을 위주로 사용하는 것이 좋음(const와 let은 변수 생성과정이 달라서 엑세스 불가 에러 발생)
-
 #### 상호작용
 - alert : 등장하는 페이지 외의 버튼을 누르거나 밖의 요소와 상호작용 불가능
 - prompt 
@@ -416,42 +438,6 @@ for(let key in user){
     - 전역 심볼의 경우는 Symbol.keyFor(sym)을 사용하면 이름을 얻을 수 있음
 
 
-#### 자료구조와 자료형
-- 숫자형
-    - e : 10의 거듭제곱 표현
-    - 0x : 16진수 표현
-    - 0b : 2진수 표현
-    - 0o : 8진수 표현
-    - num.toString(base) : base 진법으로 num을 표현한 후 문자형으로 변환
-    ```javascript
-    1e3 // 1 * 1000;
-    1.23e6 // 1.23 * 1000000
-    0xff // 255
-    0b11111111 // 255
-    0o377 // 255
-    let num = 255;
-    num.toString(16) // ff
-    num.toString(2) // 11111111
-    parseInt('0xff',16); //255
-    parseInt('ff',16); //255
-    ```
-- 문자열
-    - 줄바꿈 기호 '\n',"\n" 대신에 ` `안에 직접 줄 바꿈을 넣어서 줄 바꿈 표현 가능
-    - ' " \ 의 경우 앞에 \를 넣어 사용 가능 | ` ` 안에 직접 넣어줄 수 있음
-    - 문자열은 수정할 수 없음
-    ```javascript
-    let str = 'test';
-    str[0] = 'T';
-    alert(str[0]); // 동작 x
-    ```
-- 배열
-    - pop연산은 끝 요소 제거 & 요소 반환
-    - push연산은 끝 요소 추가
-    - shift연산은 앞 요소 제거 & 반환 -> 느림(인덱스 0제거 & 앞으로 이동시키는 과정)
-    - unshift연산은 앞 요소를 추가 -> 느림
-    - for ... of 연산 / for ... in 연산을 통해 배열 순회 가능(for ...in 연산은 객체 대상으로 사용할 때 최적화, 모든 프로퍼티와 메소드를 대상으로 순회 - 배열에선 느림)
-
-
 - 이벤트 버블링
     - 요소에 이벤트 발생 -> 할당된 핸들러 작동 -> 부모 요소의 핸들러 작동 -> 최상단 조상 요소까지 반복
     ```HTML
@@ -566,30 +552,48 @@ for(let key in user){
     }
     //순서 보장 가능
     ```
-- 변수 유효범위와 클로저
-    - 렉시컬 스코핑(Lexical scoping) : 스코프는 함수를 호출할 때가 아니라 함수를 어디에 선언하였는지에 따라 결정됨
-        - inner함수가 outer함수 내부에 선언된 경우(outer함수는 전역에 선언) : inner함수의 렉시컬 스코프는 전역, outer, 본인까지 참조 가능
-        - 스코프 체인 과정 : 함수 스코프에서 검색 -> 없으면 외부 함수 스코프 검색
-    ```javascript
-    function outerFunc() {
-        var x = 10;
-        var innerFunc = function () { console.log(x); };
-        return innerFunc;
-    }
 
-    var inner = outerFunc();
-    inner();
-    ```
-    - outerFunc()가 innerFunc() 반환 후 사라짐 but, 코드 실행 시 10이 출력됨
-    - 외부 함수 밖에서 내부함수가 호출되더라도 외부함수의 지역 변수에 접근할 수 있는데 이러한 함수를 클로저라고 함
-    - 클로저는 반환된 내부함수가 자신이 선언됐을 때의 환경(Lexical environment)인 스코프를 기억하여 자신이 선언됐을 때의 환경 밖에서 호출되어도 그 환경에 접근할 수 있는 함수
-    - 현재 상태를 기억하고 변경된 최신 상태를 유지할 때 자주 사용(ex. 버튼 토글 상태 변경, 카운터 - 함수를 리턴하는 함수 안에 변수 선언)
+
+#### Scope
+- 전역(Global) : 코드의 모든 범위에서 사용 가능
+- 함수(Function) : 함수 안에서만 사용 가능
+- 블록(Block) : if, for, switch등 특정 블록 내부에서만 사용 가능
+- 함수 내부에서 같은 이름으로 새롭게 변수를 선언해도 전역 변수의 값이 바뀌진 않음
+- const와 let을 블록 내에서 선언하게 되면, 블록 내부에서만 사용 가능하고, 블록 밖에 같은 이름의 변수가 존재해도 영향을 끼치지 않음
+- var은 function scope로 선언됨 -> 블록 내부에서 선언한 value가 블록 밖의 value에도 영향을 미침 / 전역은 X
+
+
+#### Hoisting
+- 선언되지 않은 함수, 변수를 끌어올려서 사용(초기화, 선언이 밑에 있어도 선언은 된것으로 실행 -> undefined 상태로 돌아감)
+- Hoisting이 발생하는 코드는 이해도 어렵고 유지보수가 어려움 -> 방지하는 것이 좋음
+- var 대신 const, let을 위주로 사용하는 것이 좋음(const와 let은 변수 생성과정이 달라서 엑세스 불가 에러 발생)
+
+
+#### 변수 유효범위와 클로저
+- 렉시컬 스코핑(Lexical scoping) : 스코프는 함수를 호출할 때가 아니라 함수를 어디에 선언하였는지에 따라 결정됨
+    - inner함수가 outer함수 내부에 선언된 경우(outer함수는 전역에 선언) : inner함수의 렉시컬 스코프는 전역, outer, 본인까지 참조 가능
+    - 스코프 체인 과정 : 함수 스코프에서 검색 -> 없으면 외부 함수 스코프 검색
+```javascript
+function outerFunc() {
+    var x = 10;
+    var innerFunc = function () { console.log(x); };
+    return innerFunc;
+}
+
+var inner = outerFunc();
+inner();
+```
+- outerFunc()가 innerFunc() 반환 후 사라짐 but, 코드 실행 시 10이 출력됨
+- 외부 함수 밖에서 내부함수가 호출되더라도 외부함수의 지역 변수에 접근할 수 있는데 이러한 함수를 클로저라고 함
+- 클로저는 반환된 내부함수가 자신이 선언됐을 때의 환경(Lexical environment)인 스코프를 기억하여 자신이 선언됐을 때의 환경 밖에서 호출되어도 그 환경에 접근할 수 있는 함수
+- 현재 상태를 기억하고 변경된 최신 상태를 유지할 때 자주 사용(ex. 버튼 토글 상태 변경, 카운터 - 함수를 리턴하는 함수 안에 변수 선언)
 
 
 *****
 #### 참고
-https://learnjs.vlpt.us/basics/
-https://ko.javascript.info/
-https://www.daleseo.com/js-async-callback/
-https://joshua1988.github.io/web-development/javascript/promise-for-beginners/
-https://poiemaweb.com/js-closure
+https://learnjs.vlpt.us/basics/<br>
+https://ko.javascript.info/<br>
+https://www.daleseo.com/js-async-callback/<br>
+https://joshua1988.github.io/web-development/javascript/promise-for-beginners/<br>
+https://poiemaweb.com/js-closure<br>
+https://joshua1988.github.io/web-development/javascript/event-propagation-delegation/
