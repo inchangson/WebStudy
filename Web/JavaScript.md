@@ -9,9 +9,9 @@
 - 연산 순서
     - not -> and -> or 순서로 처리
     ```javascript
-    const value = !((true && false)||((true&&false)||!false));
-    !((true && false)||(true&&false)||true);
-    !(false||false||true);
+    const value = !((true && false) || ((true && false) || !false));
+    !((true && false) || (true && false) || true);
+    !(false || false || true);
     !true
     false
     ```
@@ -114,13 +114,6 @@ const squared = arr.map(square);
 // map 함수의 파라미터에 변화를 주는 함수 전달
 // const squared = arr.map(n => n * n); 가능
 ```
-- str.indexOf(substr, pos) 메소드를 사용해 부분 문자열 찾기 가능
-    - 원하는 부분 발견 시 시작 인덱스 반환
-    - 찾지 못한 경우 -1 반환
-    - pos에는 몇번째 인덱스부터 검색할지 지정 가능
-- str.startsWith, str.endsWith를 통해 부분 문자열로 시작하는지 | 끝나는지 true, false로 반환 받을 수 있음
-- str.substring(start, end)를 통해 부분 문자열 추출 가능(slice와 다르게 start가 end보다 커도 됨)
-- str.substr(start, length)를 통해 start부터 length개의 문자 반환
 - findIndex
     - findIndex 함수로 객체나 배열 안에 존재하는 항목까지 찾을 수 있음(첫번째 인덱스, 없으면 -1)
     - 조건을 반환하는 함수를 넣어서 검사
@@ -136,12 +129,6 @@ const squared = arr.map(square);
     ```javascript
     const tasksNotDone = todos.filter(todo => todo.done === false);
     ```
-- splice
-    - 특정 항목 제거할 때 사용
-    - 첫번째 파라미터는 어떤 인덱스부터 지울지, 두번째 파라미터는 몇 개를 지울지 의미
-- slice
-    - splice와 비슷하지만 기존의 배열을 변화시키지 않는다는 것이 다름
-    - 첫번째 파라미터는 어디서부터 자를지, 두번째 파라미터는 어디까지 자를지 의미 -> 기존 배열은 그대로, 잘린 부분은 새롭게 반환
 - shift & pop
     - shift는 첫번째 원소 추출 & 삭제
     - pop은 마지막 원소 추출 & 삭제
@@ -153,6 +140,12 @@ const squared = arr.map(square);
 - join
     - 배열 값들을 문자열 형태로 합쳐줌
     - 파라미터로 문자를 넘겨주면 값들 사이에 특정 문자가 들어간 상태로 합쳐짐
+    - 
+    ```javascript
+    var arr = ['abc', 'def', 'ghi'];
+    var str = arr.join(';');
+    alert(str); //abc;def;ghi
+    ```
 - reduce
     - 첫번째 파라미터는 accumulator과 current를 파라미터로 가져와서 결과를 반환하는 콜백함수
     - 두번째 파라미터는 reduce함수에서 사용할 초깃값
@@ -169,6 +162,17 @@ const squared = arr.map(square);
     const isAnimal = name => ['고양이','개','거북이','너구리'].includes(name);
     //true | false 반환
     ```
+
+
+#### 문자열 관련 함수
+- str.indexOf(substr, pos) 메소드를 사용해 부분 문자열 찾기 가능
+    - 원하는 부분 발견 시 시작 인덱스 반환
+    - 찾지 못한 경우 -1 반환
+    - pos에는 몇번째 인덱스부터 검색할지 지정 가능
+- str.startsWith, str.endsWith를 통해 부분 문자열로 시작하는지 | 끝나는지 true, false로 반환 받을 수 있음
+- str.substring(start, end)를 통해 부분 문자열 추출 가능(slice와 다르게 start가 end보다 커도 됨)
+- str.substr(start, length)를 통해 start부터 length개의 문자 반환
+
 
 #### 프로토타입과 클래스
 - 프로토타입
@@ -192,8 +196,36 @@ const squared = arr.map(square);
     - 클래스 내부 함수를 '메서드' => 자동으로 prototype으로 등록
     - extends를 통해 상속
     - constructor로 초기화 가능
+    - 
+    ```javascript
+    class Animal{
+        constructor(type, name, sound){
+            this.type = type;
+            this.name = name;
+            this.sound = sound;
+        }
+        say(){
+            console.log(this.sound);
+        }
+    }
+    class Dog extends Animal {
+        constructor(name, sound) {
+            super('개', name, sound);
+        }
+    }
+    class Cat extends Animal {
+        constructor(name, sound) {
+            super('고양이', name, sound);
+        }
+    }
+    const dog = new Animal('멍멍이', '멍멍');
+    const cat = new Animal('야옹이', '야옹');
+    dog.say(); //멍멍
+    cat.say(); //야옹
+    ```
 
-#### Spread
+
+#### Spread 문법
 ```javascript
 const slime = {
     name : '슬라임'
@@ -207,7 +239,8 @@ const animals = ['개', '고양이', '참새'];
 const anotherAnimals = [...animals, '비둘기'];
 ```
 
-#### rest
+
+#### rest 문법
 - 비구조화 할당 문법과 함께 사용
 ```javascript
 const purpleCuteSlime = {
@@ -224,6 +257,13 @@ const [one, ...rest] = numbers;
 ```
 - 배열에서도 마찬가지로 one에는 0이, rest에는 [1,2,3,4,5] 배열이 저장
 - 함수의 파라미터가 몇개인지 모를때 rest 파라미터를 사용하면 모든 파라미터의 정보를 받아오는 함수 만들기 가능
+```javascript
+function sum(...rest){
+    return rest.reduce((acc,current)=>acc+current,0);
+}
+const result = sum(1,2,3,4,5,6);
+```
+
 
 #### Scope
 - 전역(Global) : 코드의 모든 범위에서 사용 가능
@@ -270,7 +310,7 @@ let sum = function(a,b){
     return a+b;
 };
 ```
-- 자바스크립트 엔진이 함수 생성 시기가 다름
+- 자바스크립트 엔진의 함수 생성 시기가 다름
     - 함수 표현식의 경우 실제 실행 흐름이 해당 함수에 도달했을 때 함수 생성(실행 흐름이 함수에 도달했을 때 함수 사용 가능)
     - 함수 선언문의 경우 스크립트 어디에 있든 사용 가능 -> 초기화 단계에서 함수 선언 방식으로 함수 생성
 
@@ -410,10 +450,9 @@ for(let key in user){
     - shift연산은 앞 요소 제거 & 반환 -> 느림(인덱스 0제거 & 앞으로 이동시키는 과정)
     - unshift연산은 앞 요소를 추가 -> 느림
     - for ... of 연산 / for ... in 연산을 통해 배열 순회 가능(for ...in 연산은 객체 대상으로 사용할 때 최적화, 모든 프로퍼티와 메소드를 대상으로 순회 - 배열에선 느림)
-<!-- 배열과 메서드 -->
 
 
-- 버블링
+- 이벤트 버블링
     - 요소에 이벤트 발생 -> 할당된 핸들러 작동 -> 부모 요소의 핸들러 작동 -> 최상단 조상 요소까지 반복
     ```HTML
     <form onclick="alert('form')">FORM
@@ -425,7 +464,16 @@ for(let key in user){
     - 이벤트가 발생한 가장 안쪽 요소는 event.target, 현재 요소(실행 중인 핸들러가 할당된 요소)는 this
         - 클릭 이벤트를 예시로 들면, event.target은 실제 클릭한 요소
         - this는 작동한 핸들러 함수가 붙어있는 요소
+    - 이벤트 캡쳐
+        - 이벤트 버블링과 반대 방향으로 진행되는 전파 방식(최상위 요소에서 해당 태그까지)
+        - 
+        ```javascript
+        div.addEventListener('click', logEvent, {
+            capture: true //default는 false
+        });
+        ```
     - event.stopPropagation()을 사용하면 이벤트 처리 & 버블링 중단(부모 요소로 일어나는 버블링 막아줌)
+
 - 동기 / 비동기
     - JavaScript는 기본적으로 동기식 언어(단일 쓰레드, 한 작업동안 다른 작업 대기)
     - JavaScript의 엔진은 Call Stack에 쌓이고 호출되는 구조 
