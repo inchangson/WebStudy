@@ -131,11 +131,13 @@ class Developer implements Person{
     - isolate의 경우 쓰레드가 자체적으로 메모리를 가지고 있음, 메모리 공유 x
     - 다른 쓰레드가 같은 작업하려면 message를 주고 받아야함 but 공유 자원에 대한 처리 필요 x
     - 새로운 isolate는 spawn을 통해 만들 수 있음
+    - 
     ```dart
     Isolate.spawn(isolateTest, 1);
     Isolate.spawn(isolateTest, 2);
     ```
     - ReceivePort 객체 생성으로 isolate 간 message 주고받기 가능
+    - 
     ```dart
     ReceivePort mainReceivePort = new ReceivePort();
     ```
