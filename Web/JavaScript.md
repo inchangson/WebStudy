@@ -589,6 +589,79 @@ inner();
 - 현재 상태를 기억하고 변경된 최신 상태를 유지할 때 자주 사용(ex. 버튼 토글 상태 변경, 카운터 - 함수를 리턴하는 함수 안에 변수 선언)
 
 
+#### 네트워크 요청
+- Fetch
+    - 기본 문법
+    ```javascript
+    let promise = fetch(url, [options]);
+    // url : 접근하고자 하는 url
+    // options : 선택 매개변수, method나 header 등 지정 가능, default는 get
+    ```
+    - fetch() 호출 시 네트워크 요청 보냄 & 프로미스 반환
+    ```javascript
+    let response = await fetch(url);
+    if(response.ok){ 
+        let json = await response.json();
+        // 응답을 json형태로 파싱
+    }else{
+        alert("HTTP-Error: " + response.status);
+    }
+    ```
+    - await나 프로미스로 데이터 받아오기 가능
+    ```javascript
+    let url = '~~~~'
+    let response = await fetch(url);
+    let commits = await response.json();
+    alert(commits[0].author.login);
+    //
+    fetch('~~~~')
+        .then(response => response.json())
+        .then(commits => alert(commits[0].author.login));
+    ```
+    - 받아오는 response 하나에 여러 개의 메소드 사용 불가능(response.text() 반환 후 response.json() 동작 X)
+    - response.headers를 통해 응답 헤더에 접근 가능
+    - headers 옵션을 사용하여 fetch에 요청 헤더를 설정할 수 있음
+    ```javascript
+    let response = fetch(protectedUrl, {
+        headers: {
+            Authentication: 'secret'
+        }
+    });
+    ```
+
+- XMLHttpRequest
+    1. 객체 생성 및 초기화
+    ```javascript
+    //객체 생성
+    var xhr = newXMLHttpRequest();
+    //초기화
+    xhr.open(method, url[, async[, user[, password]]]);
+    ```
+    - method: GET, POST, PUT, DELETE 등 요청의 HTTP request methods 값 설정
+    - url: 요청을 처리할 주소값 설정
+    - async: 비동기 여부 설정(default: true)
+    - user: 인증이 필요한 경우 설정하는 username(default: null)
+    - password: 인증이 필요한 경우 설정하는 password(default: null)
+    2. 이벤트 핸들러에 함수 설정
+    ```javascript
+    //XMLHttpRequest의 readyState값에 따라 요청의 처리 결과 확인 가능
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', function (event) {
+        const { target } = event;
+        if (target.readyState === XMLHttpRequest.DONE){
+            const {status} = target;
+            if(status === 0 || (status >= 200 && status <400)){
+                //정상 처리
+            } else{
+                //에러 발생
+            }
+        }
+    });
+    ```
+    3. send() 함수를 통해 요청 
+     
+
+
 *****
 #### 참고
 https://learnjs.vlpt.us/basics/<br>
@@ -596,4 +669,5 @@ https://ko.javascript.info/<br>
 https://www.daleseo.com/js-async-callback/<br>
 https://joshua1988.github.io/web-development/javascript/promise-for-beginners/<br>
 https://poiemaweb.com/js-closure<br>
-https://joshua1988.github.io/web-development/javascript/event-propagation-delegation/
+https://joshua1988.github.io/web-development/javascript/event-propagation-delegation/<br>
+https://7942yongdae.tistory.com/67
