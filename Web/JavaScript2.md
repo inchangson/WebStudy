@@ -1,12 +1,23 @@
 ### JavaScript
 #### 기본 문법
 - let vs var
+    - let을 사용하면 블록 명령문이나 let을 사용한 표현식 내로 범위가 제한되는 변수를 선언
+    - var는 변수를 블록을 고려하지 않고 현재 함수 (또는 전역 스코프) 어디에서나 접근할 수 있는 변수를 선언
     - var은 똑같은 이름으로 여러번 선언할 수 있음(에러가 발생하지 않지만 관리하기 어려움)
     - var과 달리 let은 선언문 이전에 사용하면 에러 발생(호이스팅 문제, var 선언문이나 function 선언문을 스코프의 선두로 옮긴 것처럼 동작하는 특성)
 - Hoisting
-    - 선언되지 않은 함수, 변수를 끌어올려서 사용(초기화, 선언이 밑에 있어도 선언은 된것으로 실행 -> undefined 상태로 돌아감)
+    - 함수 안에 있는 선언들을 모두 끌어올려서 해당 함수 유효 범위의 최상단에 선언하는 것(초기화, 선언이 밑에 있어도 선언은 된것으로 실행 -> undefined 상태로 돌아감)
     - Hoisting이 발생하는 코드는 이해도 어렵고 유지보수가 어려움 -> 방지하는 것이 좋음
-    - var 대신 const, let을 위주로 사용하는 것이 좋음(const와 let은 변수 생성과정이 달라서 엑세스 불가 에러 발생)
+    - var 대신 const, let을 위주로 사용하는 것이 좋음(const와 let은 변수 생성과정이 달라서 엑세스 불가 에러 발생, hoisting이 발생은 함)
+    ```javascript
+    console.log(text); // 에러 발생 X, 선언(변수 객체 등록) & 초기화(메모리 확보) & undefined로 할당
+    var text = 'test';
+    console.log(text);
+    ```
+    ```javascript
+    console.log(text); // hoisting 때문에 선언은 된 것으로 취급 / but 초기화 & 할당 되지 않음 -> 에러 발생
+    let text; 
+    ```
 - 비교 연산자
     - === 사용
     - == 으로도 비교는 가능 but 타입 비교는 안함
@@ -110,37 +121,47 @@ const squared = arr.map(square);
 
 
 #### Spread 문법
+- 객체나 배열을 통채로 끌고와서 사용 가능
 ```javascript
-const slime = {
-    name : '슬라임'
-};
-const cuteSlime{
-    ...slime,
-    attribute: 'cute'
-};
-//배열에서도 사용 가능
-const animals = ['개', '고양이', '참새'];
-const anotherAnimals = [...animals, '비둘기'];
+//객체에서의 사용
+const a = {
+    one: '하나',
+    two: '둘',
+}
+const b = {
+    ...a,
+    three: '셋'
+}
+console.log(b); // { one: '하나', two: '둘', three: '셋' }
+```
+```javascript
+//배열에서의 사용
+const a = [1, 2, 3]
+const b = [...a, 999, ...a]
+console.log(b) // [1, 2, 3, 999, 1, 2, 3]
 ```
 
 
-#### rest 문법
+#### Rest 문법
 - 비구조화 할당 문법과 함께 사용
+- 나머지 객체나 배열을 rest에 담아서 추출 가능
 ```javascript
-const purpleCuteSlime = {
-    name: '슬라임',
-    attribute: 'cute',
-    color: 'purple'
-};
-const {color, ...cuteSlime} = purpleCuteSlime;
+const a = {
+    one: '하나',
+    two: '둘',
+    three: '셋'
+}
+const { three, ...rest } = a;
+console.log(three); // '셋'
+console.log(rest); // { one: '하나', two: '둘' }
 ```
-- color에는 'purple'이, cuteSlime에는 {name:"슬라임", attribute:"cute"}라는 object가 저장
+
 ```javascript
 const numbers = [0,1,2,3,4,5];
 const [one, ...rest] = numbers;
 ```
 - 배열에서도 마찬가지로 one에는 0이, rest에는 [1,2,3,4,5] 배열이 저장
-- 함수의 파라미터가 몇개인지 모를때 rest 파라미터를 사용하면 모든 파라미터의 정보를 받아오는 함수 만들기 가능
+- 함수의 파라미터가 몇 개인지 모를때 rest 파라미터를 사용하면 모든 파라미터의 정보를 받아올 수 있음
 ```javascript
 function sum(...rest){
     return rest.reduce((acc,current)=>acc+current,0);
@@ -170,7 +191,6 @@ const result = sum(1,2,3,4,5,6);
     - 클래스 내부 함수를 '메서드' => 자동으로 prototype으로 등록
     - extends를 통해 상속
     - constructor로 초기화 가능
-    - 
     ```javascript
     class Animal{
         constructor(type, name, sound){
@@ -200,6 +220,7 @@ const result = sum(1,2,3,4,5,6);
 
 
 #### this
+- 자신이 속한 객체 또는 자신이 생성할 인스턴스를 가리키는 자기 참조 변수
 - this의 값은 런타임에 결정됨
 - 함수를 선언할 때 this를 사용할 수 있지만 함수가 호출되기 전까지 this엔 값 할당 x
 - 동일한 함수라도 다른 객체에서 호출한 경우 'this'가 참조하는 값이 달라짐
@@ -242,15 +263,8 @@ admin.f(); //Admin
 - 전역(Global) : 코드의 모든 범위에서 사용 가능
 - 함수(Function) : 함수 안에서만 사용 가능
 - 블록(Block) : if, for, switch등 특정 블록 내부에서만 사용 가능
-- 함수 내부에서 같은 이름으로 새롭게 변수를 선언해도 전역 변수의 값이 바뀌진 않음
-- const와 let을 블록 내에서 선언하게 되면, 블록 내부에서만 사용 가능하고, 블록 밖에 같은 이름의 변수가 존재해도 영향을 끼치지 않음
+- 변수를 const와 let으로 블록 내에서 선언하게 되면, 블록 내부에서만 사용 가능하고, 블록 밖에 같은 이름의 변수가 존재해도 영향을 끼치지 않음
 - var은 function scope로 선언됨 -> 블록 내부에서 선언한 value가 블록 밖의 value에도 영향을 미침 / 전역은 X
-
-
-#### Hoisting
-- 선언되지 않은 함수, 변수를 끌어올려서 사용(초기화, 선언이 밑에 있어도 선언은 된것으로 실행 -> undefined 상태로 돌아감)
-- Hoisting이 발생하는 코드는 이해도 어렵고 유지보수가 어려움 -> 방지하는 것이 좋음
-- var 대신 const, let을 위주로 사용하는 것이 좋음(const와 let은 변수 생성과정이 달라서 엑세스 불가 에러 발생)
 
 
 #### 변수 유효범위와 클로저
@@ -271,3 +285,16 @@ inner();
 - 외부 함수 밖에서 내부함수가 호출되더라도 외부함수의 지역 변수에 접근할 수 있는데 이러한 함수를 클로저라고 함
 - 클로저는 반환된 내부함수가 자신이 선언됐을 때의 환경(Lexical environment)인 스코프를 기억하여 자신이 선언됐을 때의 환경 밖에서 호출되어도 그 환경에 접근할 수 있는 함수
 - 현재 상태를 기억하고 변경된 최신 상태를 유지할 때 자주 사용(ex. 버튼 토글 상태 변경, 카운터 - 함수를 리턴하는 함수 안에 변수 선언)
+
+
+*****
+#### 참고
+https://learnjs.vlpt.us/basics/<br>
+https://ko.javascript.info/<br>
+https://www.daleseo.com/js-async-callback/<br>
+https://joshua1988.github.io/web-development/javascript/promise-for-beginners/<br>
+https://poiemaweb.com/js-closure<br>
+https://joshua1988.github.io/web-development/javascript/event-propagation-delegation/<br>
+https://7942yongdae.tistory.com/67<br>
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/let<br>
+https://poiemaweb.com/es6-block-scope<br>
