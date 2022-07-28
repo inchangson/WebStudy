@@ -134,14 +134,14 @@ print(person.getName<String>('Kim'));
     - 다른 쓰레드가 같은 작업하려면 message를 주고 받아야함 but 공유 자원에 대한 처리 필요 x
     - 새로운 isolate는 spawn을 통해 만들 수 있음
      <p align="center"><img src="https://t1.daumcdn.net/thumb/R1280x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/2Kn8/image/kGl8skuXDaGhoLOtRHXaBhzFHwM.png"></p>    
-    ```dart
-    Isolate.spawn(isolateTest, 1);
-    Isolate.spawn(isolateTest, 2);
-    ```
-    ```dart
-    //ReceivePort 객체 생성으로 isolate 간 message 주고받기 가능
-    ReceivePort mainReceivePort = new ReceivePort();
-    ```
+```dart
+Isolate.spawn(isolateTest, 1);
+Isolate.spawn(isolateTest, 2);
+```
+```dart
+//ReceivePort 객체 생성으로 isolate 간 message 주고받기 가능
+ReceivePort mainReceivePort = new ReceivePort();
+```
 - Future
     - 작업의 결과값을 나중에 받는 것
     - Future 상태
