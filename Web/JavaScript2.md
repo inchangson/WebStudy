@@ -1,13 +1,10 @@
 ### JavaScript
 #### 기본 문법
 - let vs var
-    - let을 사용하면 블록 명령문이나 let을 사용한 표현식 내로 범위가 제한되는 변수를 선언
-    - var는 변수를 블록을 고려하지 않고 현재 함수 (또는 전역 스코프) 어디에서나 접근할 수 있는 변수를 선언
     - var은 똑같은 이름으로 여러번 선언할 수 있음(에러가 발생하지 않지만 관리하기 어려움)
     - var과 달리 let은 선언문 이전에 사용하면 에러 발생(호이스팅 문제, var 선언문이나 function 선언문을 스코프의 선두로 옮긴 것처럼 동작하는 특성)
 - Hoisting
     - 함수 안에 있는 선언들을 모두 끌어올려서 해당 함수 유효 범위의 최상단에 선언하는 것(초기화, 선언이 밑에 있어도 선언은 된것으로 실행 -> undefined 상태로 돌아감)
-    - Hoisting이 발생하는 코드는 이해도 어렵고 유지보수가 어려움 -> 방지하는 것이 좋음
     - var 대신 const, let을 위주로 사용하는 것이 좋음(const와 let은 변수 생성과정이 달라서 엑세스 불가 에러 발생, hoisting이 발생은 함)
     ```javascript
     console.log(text); // 에러 발생 X, 선언(변수 객체 등록) & 초기화(메모리 확보) & undefined로 할당
@@ -16,7 +13,7 @@
     ```
     ```javascript
     console.log(text); // hoisting 때문에 선언은 된 것으로 취급 / but 초기화 & 할당 되지 않음 -> 에러 발생
-    let text; 
+    let text = 'test'; 
     ```
 - 비교 연산자
     - === 사용
@@ -188,7 +185,7 @@ const result = sum(1,2,3,4,5,6);
     ```
 - 클래스
     - ES6에서는 class 문법 도입
-    - 클래스 내부 함수를 '메서드' => 자동으로 prototype으로 등록
+    - 클래스 내부 함수를 '메서드' => 자동으로 prototype으로 등록(객체가 여러개라도 하나의 함수로 실행 가능)
     - extends를 통해 상속
     - constructor로 초기화 가능
     ```javascript
@@ -249,7 +246,7 @@ admin.f(); //Admin
 - 이벤트가 발생한 가장 안쪽 요소는 event.target, 현재 요소(실행 중인 핸들러가 할당된 요소)는 this
     - 클릭 이벤트를 예시로 들면, event.target은 실제 클릭한 요소
     - this는 작동한 핸들러 함수가 붙어있는 요소
-- 이벤트 캡쳐
+- 이벤트 캡쳐링
     - 이벤트 버블링과 반대 방향으로 진행되는 전파 방식(최상위 요소에서 해당 태그까지)
     ```javascript
     div.addEventListener('click', logEvent, {
