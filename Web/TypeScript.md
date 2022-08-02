@@ -11,6 +11,23 @@
     - 타입 없이 변수만 선언하여 값 지정 가능
     - JavaScript, Ruby, Python 등
 
+#### 타입 안정성
+- 자바 스크립트는 에러를 최대한 줄여주고자 함
+```javascript
+[1,2,3,4] + false 
+'1,2,3,4false' //string으로 변환
+```
+```javascript
+function divide(a, b){
+    return a/b
+}
+divide("aaa"); //NaN 반환
+```
+- 객채에 존재하지 않는 메소드 사용 -> 코드 실행 -> 런타임 에러 발생
+- 코드가 실행되기 전에 에러를 캐치할 수 있어야함
+- 타입스크립트는 에러가 발생할 것 같은 부분이 존재하면 자바스크립트로 컴파일되지 않음
+    
+
 #### 타입
 ```TypeScript
 let isLogin: boolean = false;
@@ -19,6 +36,8 @@ let str: String = 'test';
 let obj: object = { name: 'test', age: 1 }
 // object의 경우 모든 타입 값 할당 가능 -> 타입 검사에 엄격한 타입스크립트 목적이 모호해짐
 let arr: number[] = [1,2,3];
+let arr: readonly number[] = [1,2,3];
+// let arr = [1,2 3]; 명시해주지 않아도 가능
 let arr: Array<number> = [1,2,3];
 ```
 
@@ -26,6 +45,8 @@ let arr: Array<number> = [1,2,3];
 ```TypeScript
 let arr: [string, number] = ['hi', 10];
 // ex) 사용자 정보 저장 [index, id, password] -> 특정 길이 & 데이터 타입 순서 정해짐
+// readonly 옵션 사용 가능
+// index를 통해 변경 가능
 ```
 
 - Enum
@@ -40,6 +61,17 @@ enum Team { Manager , Planner = 100, Designer }
 let str: any = 'hi';
 any = 1;
 // 모든 타입에 대해 허용
+```
+
+- unknown
+    - 변수의 타입을 미리 알지 못 할 때 사용
+```TypeScript
+let a:unknown
+
+let b = a + 1 // 에러 발생
+if(typeof a === 'number'){
+    let b = a + 1 
+}//에러 발생 x
 ```
 
 - void
@@ -69,6 +101,7 @@ function setInfo(id: number | String, name: String){
 // 매개 변수에 number, string 모두 가능하게 파이프를 사용하여 설정 가능
 ```
 
+
 #### 인터페이스
 - 상호 간에 정의한 약속, 규칙
     - 객체의 속성, 속성 타입
@@ -78,28 +111,84 @@ function setInfo(id: number | String, name: String){
 ```TypeScript
 interface CraftBeer {
   name: string;
-  hop?: number;  // 옵션 속성
+  age?: number;  // 옵션 속성
 }
 
 let myBeer = {
   name: 'Saporo'
 };
 function brewBeer(beer: CraftBeer) {
-  console.log(beer.name); // Saporo
+  console.log(beer.name); 
 }
-brewBeer(myBeer);
+brewBeer(myBeer); // Saporo
+
+if(myBeer.age<10) // 에러 발생 undefined 가능성
+if(myBeer.age && myBeer.age<10) //가능
 ```
 ```TypeScript
-// 함수 타입도 지정 가능
+// 함수 타입도 지정 가능(call signature) - 타입 지정과 함수 선언을 분리할 수 있음
 interface login {
+    // 함수의 파라미터 & 리턴 타입 지정
   (username: string, password: string): boolean;
 }
 let loginUser: login;
 loginUser = function(id: string, pw: string){
+    // 함수 선언
     console.log("test");
     return true;
 }
 ```
+
+#### Interface vs Type
+```TypeScript
+interface PeopleInterface {
+  name: string
+  age: number
+}
+```
+```TypeScript
+type PeopleType = {
+    name: string
+    age: number
+}
+```
+- 확장 방법
+```TypeScript
+interface StudentInterface extends PeopleInterface {
+    school: string
+}
+```
+```TypeScript
+type StudentType = PeopleType & {
+    school: string
+}
+```
+
+#### 오버로딩
+- 여러개의 call signature가 있는 함수
+```TypeScript
+// 파라미터 타입의 종류가 다른 경우
+type Add = {
+    (a: number, b: number) : number
+    (a: number, b: string) : number
+}
+const add: Add = (a,b) => {
+    if(typeof b === "string") return a
+    return a + b
+}
+```
+```TypeScript
+// 파라미터 개수가 다른 경우
+type Add = {
+    (a: number, b: number): number
+    (a; number, b: number, c: number): number
+}
+const add:Add = (a, b, c?:number) => {
+    if(c) return a + b + c
+    return a + b
+}
+```
+
 
 #### Intersection Type & Union Type
 ```TypeScript
@@ -120,6 +209,96 @@ function func(inp: Person | Developer)
 // union type을 사용하면 어느 타입이 들어오든 에러가 나지 않는 방향으로 작동 -> 공통적으로 들어있는 속성만 접근할 수 있음
 ```
 
+#### 선택적 매개변수
+```TypeScript
+function sendMessage (message: string, userName?: string): void {
+  console.log(`${message}, ${userName}`)
+}
+sendMessage("hi") // hi, undefined
+
+function sendMessage (message: string, userName?: string = 'everyone'): void {
+  console.log(`${message}, ${userName}`)
+}
+sendMessage("hi") // hi, everyone
+sendMessage("hi", "test") // hi, test
+```
+
+#### 타입 단언
+- as(타입 단언 Type Assertion)
+```TypeScript
+class Character {
+  isWizard() { // 체크함수 }
+  isWarrior() { // 체크함수 }
+}
+class Wizard extends Character {
+  fireBall() {
+    // 기능
+  }
+}
+class Warrior extends Character {
+  attack() {
+    // 기능
+  }
+}
+
+function battle(character: Character) {
+  if (character.isWizard()) {
+    character.fireBall(); // Property 'fireBall' does not exist on type 'Character'.
+  } else if (character.isWarrior()) {
+    character.attack(); // Property 'attack' does not exist on type 'Character'.
+  } else {
+    character.runAway();
+  }
+}
+```
+Character 클래스에 fireBall()이나 attack() 메소드 구현 x -> 컴파일 에러 발생
+```TypeScript
+function battle(character: Character) {
+  if (character.isWizard()) {
+    (character as Wizard).fireBall(); // <Wizard>character.fireBall();
+  } else if (character.isWarrior()) {
+    (character as Warrior).attack();  // <Warrior>character.Attack();
+  } else {
+    character.runAway();
+  }
+}
+```
+타입 단언을 통해 컴파일 에러 해결 가능
+
+#### 타입 가드
+- isWizard()와 같은 메소드로 타입 체크를 하는 경우 컴파일러는 런타임에 타입을 알 수 있음
+- 타입 가드는 런타임에서의 타입 체크를 컴파일러에게 미리 알려주는 기능
+```TypeScript
+class Character {
+  isWizard(): this is Wizard {
+    return this instanceof Wizard;
+  }
+  isWarrior(): this is Warrior {
+    return this instanceof Warrior;
+  }
+}
+
+function battle(character: Character) {
+  if (character.isWizard()) {
+    character.fireBall(); // 에러발생 x
+  } else if (character.isWarrior()) {
+    character.attack(); // 에러발생 x
+  } else {
+    character.runAway();
+  }
+}
+```
+- instanceof나 typeof 같은 오퍼레이터도 타입 가드의 일종
+```TypeScript
+function doSomething(val: string | number) {
+  if (typeof val === 'number') {
+    val.toFixed(); // Pass, val은 number 타입으로 추론
+  } else {
+    // Union 타입에서 `number`는 이미 통과했으므로 자동으로 `string`으로 추론됨
+    val.toLowerCase(); // Pass, val은 string 타입으로 추론
+  }
+}
+```
 
 #### never 사용 이유
 - 조건문에서 에러 핸들링 쉬워짐
@@ -130,6 +309,7 @@ function func(x: string | number): boolean {
   } else if (typeof x === "number") {
     return false;
   }
+  // 자동적으로 x는 never
   return fail("Unexhaustive!");
 }
 function fail(message: string): never { throw new Error(message); }
@@ -172,7 +352,8 @@ type VariantB = {
 function fn(arg: VariantA | VariantB): void ~~~
 const input = { a: 'test', b: 123 }
 fn(input) // 에러 발생
-- 
+```
+- 로직 상 도달할 수 없는 부분에 작성 -> 에러 핸들링 | 제약 조건 설정
 
 
 
@@ -182,3 +363,6 @@ fn(input) // 에러 발생
 https://yceffort.kr/2022/03/understanding-typescript-never<br>
 https://joshua1988.github.io/ts/intro.html<br>
 https://yamoo9.gitbook.io/typescript/<br>
+https://velog.io/@zeros0623/TypeScript-%EA%B3%A0%EA%B8%89-%ED%83%80%EC%9E%85<br>
+https://hyunseob.github.io/2017/12/12/typescript-type-inteference-and-type-assertion/<br>
+https://nomadcoders.co/typescript-for-beginners/lobby
