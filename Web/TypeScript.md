@@ -101,6 +101,39 @@ function setInfo(id: number | String, name: String){
 // 매개 변수에 number, string 모두 가능하게 파이프를 사용하여 설정 가능
 ```
 
+#### 제네릭
+```TypeScript
+type SuperPrint = {
+    <TypePlaceholder>(arr: TypePlaceholder[]):void
+    // <T>(arr: T[]):T 가능
+} 
+const superPrint: SuperPrint = (arr) => {
+    arr.forEach(i => console.log(i));
+}
+superPrint([1, 2, 3, 4]) 
+superPrint([true, false, true])
+superPrint(["a","b","c"])
+superPrint([1, 2, true, "a"]) // <string | boolean | string>(arr: (string | boolean | string)[]) => void
+```
+- 하나의 속성 타입이 자주 변경되는 경우
+```TypeScript
+type Player<E> = {
+    name: string
+    extraInfo: E
+}
+const test: Player<{favFood:string}> = {
+    name: "test",
+    extraInfo: {
+        favFood: "kimchi"
+    }
+}
+const test2: Player<null> = {
+    name : "test2",
+    extraInfo: null
+}
+// 재사용 가능
+```
+
 
 #### 인터페이스
 - 상호 간에 정의한 약속, 규칙
@@ -163,6 +196,28 @@ type StudentType = PeopleType & {
     school: string
 }
 ```
+- 제한
+```TypeScript
+type Colors = "red" | "blue" | "yellow" // 가능
+interface Colors = "red" | "blue" | "yellow" // 불가능
+```
+- 추가
+```TypeScript
+interface tmp{
+    title: string
+}
+interface tmp{
+    name: string
+}
+// let x:tmp = {title:"a", name:"b"};
+type tmp{
+    title: string
+}
+type tmp{
+    name: string
+}// 불가능
+```
+
 
 #### 오버로딩
 - 여러개의 call signature가 있는 함수
@@ -354,6 +409,119 @@ const input = { a: 'test', b: 123 }
 fn(input) // 에러 발생
 ```
 - 로직 상 도달할 수 없는 부분에 작성 -> 에러 핸들링 | 제약 조건 설정
+
+
+#### 
+```TypeScript
+type Words = {
+    [key:number]: string
+}
+let dict: Words = {
+    1: "food",
+    2: "",
+    3: " ",
+}
+```
+4.1 구현?
+
+#### vs JS
+- constructor 생성
+```TypeScript
+class Player {
+    constructor(
+        private firstName: string,
+        private lastName: string,
+        public nickName: string
+    ) {}
+}
+```
+```JavaScript
+class Player {
+    constructor(firstName, lastName, nickName){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nickName = nickName;
+    }
+}
+```
+- public & private & protected
+<!-- adsfasdfasd -->
+
+- abstract class
+    - JS로 변환 과정 -> JS에는 추상 클래스가 존재하지 않음 -> 객체를 생성하지도 않고, 생성자 포함 클래스 만드는 것 손해
+    - interface로 대체 가능
+```TypeScript
+abstract class User{
+    constructor(
+        protected firstName: string,
+        protected lastName: string
+    ){}
+    abstract sayHi(name: string): string
+    abstract fullName(): string
+} 
+class Player extends User{
+    fullName(){
+        return '${this.firstName} ${this.lastName}'
+    }
+    sayHi(name: string){
+        return 'Hello ${name}. My name is ${this.fullName()}'
+    }
+}
+```
+```javascript
+class User {
+    constructor(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+} //javascript 변환 시 사용되지 않는 일반 user class와 생성자가 생김
+class Player implements User {
+    fullName() {
+        return '${this.firstName} ${this.lastName}';
+    }
+    sayHi(name) {
+        return 'Hello ${name}. My name is ${this.fullName()}';
+    }
+}
+```
+```typescript
+interface User {
+    firstName: string,
+    lastName: string,
+    sayHi(name: string): string
+    fullName(): string
+}
+class Player implements User{ //implements 여러개도 가능
+    constructor(
+        public firstName: string,
+        public lastName: string
+    ){}
+    fullName() {
+        return '${this.firstName} ${this.lastName}';
+    }
+    sayHi(name: string) {
+        return 'Hello ${name}. My name is ${this.fullName()}';
+    }
+}
+// 인터페이스는 가볍고, 컴파일하면 JS로 변환되지 않고 사라짐 
+// 대신 private property 사용 불가능
+```
+```javascript
+class Player {
+    constructor(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    fullName() {
+        return '${this.firstName} ${this.lastName}';
+    }
+    sayHi(name) {
+        return 'Hello ${name}. My name is ${this.fullName()}';
+    }
+}
+```
+
+
 
 
 
