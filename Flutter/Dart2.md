@@ -35,6 +35,17 @@ class SubClass extends SuperClass{
 - 사용 방법
     - 캡슐화를 통해 사용 가능
     - 멤버 변수를 private으로 선언 & 변수에 접근할 수 있는 메소드는 public으로 선언
+```dart
+class Person {
+    String _name;
+    get name{
+        return this._name;
+    }
+    set name(String name){
+        this._name = name;
+    }
+}
+```
 
 #### 추상 클래스
 - 목적은 추상 메소드가 포함된 클래스를 상속받는 자식 클래스가 반드시 추상 메소드를 구현하도록 하기 위함
@@ -65,6 +76,7 @@ class Developer implements Person{
     - 인덱스로 접근 가능, 0 base
     - add, addAll로 데이터 추가
     - remove, removeAt, clear로 요소 삭제 
+    
     - sort, isEmpty, reversed 같은 메소드, 프로퍼티 사용 가능
 - Set
     - List와 다르게 데이터 순서가 없고 중복 요소 허용 X
