@@ -35,15 +35,12 @@ class SubClass extends SuperClass{
 - 사용 방법
     - 캡슐화를 통해 사용 가능
     - 멤버 변수를 private으로 선언 & 변수에 접근할 수 있는 메소드는 public으로 선언
+    - get, set 키워드로 사용 가능
 ```dart
 class Person {
     String _name;
-    get name{
-        return this._name;
-    }
-    set name(String name){
-        this._name = name;
-    }
+    String get name => _name;
+    set name(String name) => _name = name;
 }
 ```
 
@@ -76,7 +73,7 @@ class Developer implements Person{
     - 인덱스로 접근 가능, 0 base
     - add, addAll로 데이터 추가
     - remove, removeAt, clear로 요소 삭제 
-    
+
     - sort, isEmpty, reversed 같은 메소드, 프로퍼티 사용 가능
 - Set
     - List와 다르게 데이터 순서가 없고 중복 요소 허용 X
@@ -106,12 +103,13 @@ class Developer implements Person{
 
 
 #### 제네릭
-- 컬렉션에서 <> 안에 타입매개변수를 지정하는 것('매개변수화 타입을 정의한다'고 함) 
+- 컬렉션에서 <> 안에 타입매개변수를 지정하는 것도 제네릭('매개변수화 타입을 정의한다'고 함) 
+- 같은 코드를 다른 타입으로 사용 가능
 ```dart
 List<String> colors = [];
 List<int> numbers = [];
+//특정 타입을 미리 지정해주는 것이 아니라 필요에 따라 지정할 수 있도록 하는 타입(코드 일반화)
 ```
-- 특정 타입을 미리 지정해주는 것이 아니라 필요에 따라 지정할 수 있도록 하는 타입(코드 일반화)
 - 매개변수화 타입을 제한할 수 있음
 ```dart
 class Student extends Person{
