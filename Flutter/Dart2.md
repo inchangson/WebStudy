@@ -74,7 +74,6 @@ class Developer implements Person{
     - 인덱스로 접근 가능, 0 base
     - add, addAll로 데이터 추가
     - remove, removeAt, clear로 요소 삭제 
-
     - sort, isEmpty, reversed 같은 메소드, 프로퍼티 사용 가능
 - Set
     - List와 다르게 데이터 순서가 없고 중복 요소 허용 X
