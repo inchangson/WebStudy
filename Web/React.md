@@ -105,24 +105,18 @@ function App () {
     )
 }
 ```
-- 배열 & 배열 접근도 가능
+- 배열 접근도 가능
 
 
 #### 이벤트
-- onChangeMode로 함수를 넘겨주고, 해당 컴포넌트에서 함수를 활용할 수 있음
+- props로 함수를 넘겨주고, 해당 컴포넌트에서 함수를 활용할 수 있음
 ```jsx
 function App () {
-    const topics = [
-        {id:1, title:'html', body:'html is ...'},
-        {id:2, title:'css', body:'css is ...'},
-        {id:3, title:'javascript', body:'javascript is ...'}
-    ]
     return (
         <div>
             <Header title="REACT" onChangeMode={()=>{
                 alert('Header');
             }}/>
-            <Nav topics={topics} />
         </div>
     )
 }
