@@ -1,3 +1,103 @@
+### React
+#### 등장배경
+- JavaScript를 사용하여 HTML UI를 제어하기 위해선 DOM Selector API를 사용해 특정 DOM을 선택하고 변화를 주어야함
+- 처리해야 할 이벤트가 많아지고 DOM 요소도 많아진다면 코드의 유지보수가 어려움
+- 리액트는 '상태가 바뀌었을 때 DOM을 업데이트하는 것이 아니라 아예 새롭게 생성한다'라는 아이디어로 개발됨
+- 새롭게 생성 -> 속도 문제 발생 -> 가상 돔으로 해결(상태가 업데이트 되면 업데이트가 필요한 곳의 UI를 가상 돔을 통해 렌더링, 실제 DOM과 비교해 차이가 있는 곳을 DOM에 패치)
+
+#### JSX 기본 규칙
+- 태그는 꼭 닫혀야함
+- 두 개 이사의 태그가 존재하면 하나의 태그로 감싸야 한다.
+```jsx
+function App(){
+    return (
+        <Hello />
+        <div>test</div>
+    );
+} //에러 발생
+```
+- Fragment(<> </> 단순히 감싸는 용도) 사용 가능
+- JavaScript 값을 사용하기 위해선 {} 사용
+- 인라인 스타일의 경우 Camel Style로 작성(여러 단어를 연달아 사용할 때 각 단어의 첫 글자를 대문자로 적되, 맨 앞에 오는 글자는 소문자로 표기하는 것)
+- class는 className= 으로 설정
+```jsx
+function App(){
+    const name = 'react';
+    const style ={
+        backgroundColor: 'black',
+        fontSize: 24
+    }
+    return (
+        <>
+            <Hello />
+            <div style={style}>{name}</div>
+            <div className="test"></div>
+        </div>
+    );
+}
+```
+```css
+.test{
+    background: gray;
+    width: 64px;
+}
+```
+
+#### props
+- 컴포넌트에게 props 파라미터를 통해 값을 넘겨줄 수 있음
+```jsx
+import React from 'react';
+import Hello from './Hello';
+
+function App(){
+    return (
+        <Hello name="react" />
+    );
+}
+```
+```jsx
+import React from 'react';
+
+function Hello(props){
+    return <div>안녕하세요 {props.name}</div>
+}
+
+export defaul Hello;
+```
+- props는 객체 형태로 전달됨
+- 컴포넌트에 defaultProps를 지정해 기본값을 설정할 수 있음
+
+#### 조건부 렌더링
+```jsx
+import React from 'react';
+import Hello from './Hello';
+
+function App(){
+    return (
+        <>
+            <Hello name="react" color="red" isSpecial={true}/>
+        </>
+    )
+}
+```
+```jsx
+import React from 'react';
+
+function Hello({color, name, isSpecial}){
+    return (
+        <div style={{ color }}>
+        { isSpecial ? <b>*</b> : null }
+        {/* {isSpecial && <b>*</b>} 가능 */}
+        안녕하세요 { name }
+        </div>
+    );
+}
+
+export default Hello;
+```
+- 빨간 글씨로 '*안녕핫에ㅛ react' 출력
+
+
 React Hook
 
     1. Class를 이용한 코드 작성 필요 없이, state & 기능들 사용할 수 있도록 만든 라이브러리
@@ -81,3 +181,9 @@ React 관련
         1. Atoms
             1. 상태의 단위 / 업데이트 & 구독 가능
 
+
+*****
+#### 참고
+https://ko.reactjs.org/<br>
+https://www.youtube.com/playlist?list=PLuHgQVnccGMCOGstdDZvH41x0Vtvwyxu7<br>
+https://react.vlpt.us/<br>
