@@ -23,9 +23,14 @@ function divide(a, b){
 }
 divide("aaa"); //NaN 반환
 ```
+```javascript
+const obj = { width: 10, height: 15};
+const area = obj.width * obj.heigth; //NaN
+```
 - 객채에 존재하지 않는 메소드 사용 -> 코드 실행 -> 런타임 에러 발생
 - 코드가 실행되기 전에 에러를 캐치할 수 있어야함
 - 타입스크립트는 에러가 발생할 것 같은 부분이 존재하면 자바스크립트로 컴파일되지 않음
+- 작동 방식에 차이는 없음(Javascript 런타임 특성 변화는 x), Typescript 컴파일러가 코드 검사 후 다시 타입 삭제 -> JS 코드로 변환
     
 
 #### 타입
@@ -35,7 +40,7 @@ let num: number = 10;
 let str: String = 'test';
 let obj: object = { name: 'test', age: 1 }
 // object의 경우 모든 타입 값 할당 가능 -> 타입 검사에 엄격한 타입스크립트 목적이 모호해짐
-let arr: number[] = [1,2,3];
+let arr: number[] = [1,2,3];    
 let arr: readonly number[] = [1,2,3];
 // let arr = [1,2 3]; 명시해주지 않아도 가능
 let arr: Array<number> = [1,2,3];
