@@ -179,6 +179,7 @@ export default Nav;
 - props | state 변경 -> 컴포넌트 함수 처리 -> 리턴(새로운 UI)
 - props은 컴포넌트를 사용하는 외부자를 위함
 - state는 컴포넌트를 만드는 내부자를 위함
+- Const ['state 이름', 'state변경함수'] = useState('초기 state값')
 ```js
 import React, { useState } from 'react';
 import Header from './component/Header'
@@ -197,7 +198,14 @@ function App () {
         content = <Article title="Welcome" body="Hello, WEB"></Article>
     }
     else if(mode === 'READ'){
-        content = <Article title="Read" body="Hello, Read"></Article>
+        let title, body = null;
+        for(let i=0;i<topics.length;i++){
+            if(topics[i].id === id){
+                title = topics[i].title;
+                body = topics[i].body;
+            }
+        }
+        content = <Article title={title} body={body}></Article>
     }
     return (
         <div>
