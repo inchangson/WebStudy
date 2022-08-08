@@ -4,10 +4,20 @@
 - 처리해야 할 이벤트가 많아지고 DOM 요소도 많아진다면 코드의 유지보수가 어려움
 - 리액트는 '상태가 바뀌었을 때 DOM을 업데이트하는 것이 아니라 아예 새롭게 생성한다'라는 아이디어로 개발됨
 - 새롭게 생성 -> 속도 문제 발생 -> 가상 돔으로 해결(상태가 업데이트 되면 업데이트가 필요한 곳의 UI를 가상 돔을 통해 렌더링, 실제 DOM과 비교해 차이가 있는 곳을 DOM에 패치)
+- API 통신이나 사용자 이벤트를 통해서 프로그램 상태값 변경 -> 리액트가 변경된 상태값을 기반으로 UI를 자동으로 업데이트
+- but UI 기능만 제공 -> 전역 상태 관리나 라우팅에는 관여x
+
+#### 추가
+- render 함수는 순수 함수(입력값이 동일하면 출력이 같은 함수)로 작성
+- state는 불변 변수로 관리 -> 객체 속성 변경 시 새로운 객체를 만들어서 값 할당
+=> 렌더링 성능 향상
+- 가상 돔(virtual dom) 사용
+
+
 
 #### JSX 기본 규칙
-- 태그는 꼭 닫혀야함
-- 두 개 이사의 태그가 존재하면 하나의 태그로 감싸야 한다.
+- 태그는 꼭 닫혀야 함
+- 두 개 이사의 태그가 존재하면 하나의 태그로 감싸야 함
 ```jsx
 function App(){
     return (
@@ -62,10 +72,161 @@ function Hello(props){
     return <div>안녕하세요 {props.name}</div>
 }
 
-export defaul Hello;
+export default Hello;
 ```
 - props는 객체 형태로 전달됨
 - 컴포넌트에 defaultProps를 지정해 기본값을 설정할 수 있음
+```jsx
+function Nav(props){
+    const lis = []
+    for(let i=0;i<props.topics.length;i++){
+        let t = props.topics[i];
+        lis.push(<li key={t.id}><a href={'/>read/'+t.id}>{t.title}</a></li>)
+    }
+    return <nav>
+        <ol>
+            {lis}
+        </ol>
+    </nav>
+}
+export default Nav;
+```
+```jsx
+function App () {
+    const topics = [
+        {id:1, title:'html', body:'html is ...'},
+        {id:2, title:'css', body:'css is ...'},
+        {id:3, title:'javascript', body:'javascript is ...'}
+    ]
+    return (
+        <div>
+            <Nav topics={topics} />
+        </div>
+    )
+}
+```
+- 배열 & 배열 접근도 가능
+
+
+#### 이벤트
+- onChangeMode로 함수를 넘겨주고, 해당 컴포넌트에서 함수를 활용할 수 있음
+```jsx
+function App () {
+    const topics = [
+        {id:1, title:'html', body:'html is ...'},
+        {id:2, title:'css', body:'css is ...'},
+        {id:3, title:'javascript', body:'javascript is ...'}
+    ]
+    return (
+        <div>
+            <Header title="REACT" onChangeMode={()=>{
+                alert('Header');
+            }}/>
+            <Nav topics={topics} />
+        </div>
+    )
+}
+```
+```jsx
+function Header(props){
+    return<header>
+        <h1><a href="/" onClick={(event)=>{
+            event.preventDefault(); // a태그를 클릭해도 href 링크로 이동하지 않음
+            props.onChangeMode(); // 전달 받은 함수 실행
+        }}>{props.title}</a></h1>
+    </header>
+}
+
+export default Header;
+```
+- 각 props 정보를 활용할 수 있음
+```jsx
+function App () {
+    const topics = [
+        {id:1, title:'html', body:'html is ...'},
+        {id:2, title:'css', body:'css is ...'},
+        {id:3, title:'javascript', body:'javascript is ...'}
+    ]
+    return (
+        <div>
+            <Header title="REACT" onChangeMode={()=>{
+                alert('Header');
+            }}/>
+            <Nav topics={topics} onChangeMode={id=>{
+                alert(id);
+            }}/>
+        </div>
+    )
+}
+```
+```jsx
+function Nav(props){
+    const lis = []
+    for(let i=0;i<props.topics.length;i++){
+        let t = props.topics[i];
+        lis.push(<li key={t.id}>
+            <a id={t.id} href={'/>read/'+t.id} onClick={event=>{
+                event.preventDefault();
+                props.onChangeMode(event.target.id);
+            }}>{t.title}</a>
+        </li>)
+    }
+    return <nav>
+        <ol>
+            {lis}
+        </ol>
+    </nav>
+}
+export default Nav;
+```
+
+
+#### state
+- props | state 변경 -> 컴포넌트 함수 처리 -> 리턴(새로운 UI)
+- props은 컴포넌트를 사용하는 외부자를 위함
+- state는 컴포넌트를 만드는 내부자를 위함
+```js
+import React, { useState } from 'react';
+import Header from './component/Header'
+import Nav from './component/Nav';
+import Article from './component/Article';
+
+function App () {
+    const [mode, setMode] = useState('WELCOME');
+    const topics = [
+        {id:1, title:'html', body:'html is ...'},
+        {id:2, title:'css', body:'css is ...'},
+        {id:3, title:'javascript', body:'javascript is ...'}
+    ]
+    let content = null;
+    if(mode === 'WELCOME'){
+        content = <Article title="Welcome" body="Hello, WEB"></Article>
+    }
+    else if(mode === 'READ'){
+        content = <Article title="Read" body="Hello, Read"></Article>
+    }
+    return (
+        <div>
+            <Header title="REACT" onChangeMode={()=>{
+                setMode('WELCOME');
+            }}/>
+            <Nav topics={topics} onChangeMode={id=>{
+                setMode('READ');
+            }}/>
+            {content}
+        </div>
+    )
+}
+
+export default App;
+```
+![result1](../img/react/WEB.png)
+![result2](../img/react/HTML.png)
+![result3](../img/react/CSS.png)
+
+
+
+
 
 #### 조건부 렌더링
 ```jsx
@@ -95,9 +256,35 @@ function Hello({color, name, isSpecial}){
 
 export default Hello;
 ```
-- 빨간 글씨로 '*안녕핫에ㅛ react' 출력
+- 빨간 글씨로 '*안녕하세요 react' 출력
 
 
+#### import 중괄호 {} 의미
+- export 방식의 차이
+- default로 export한 경우 괄호를 사용하지 않아도 import할 수 있음 + 변수명도 마음대로 사용 가능
+- 나머지의 경우 export할 때 변수명을 그대로 사용해야하고 괄호 안에서 호출해야함
+- as 키워드를 사용해 변경 가능
+```jsx
+const a = 1;
+const b = 2;
+export { a };
+export const c = 3;
+export default b;
+// default가 여러개 -> 처음 정의한 부분 사용
+```
+```jsx
+import d, { a, c as e} from './example';
+// 변수 d가 b를 import한 것
+```
+
+
+
+
+
+
+
+
+<!-- 카운터 & useState -->
 React Hook
 
     1. Class를 이용한 코드 작성 필요 없이, state & 기능들 사용할 수 있도록 만든 라이브러리
@@ -181,9 +368,14 @@ React 관련
         1. Atoms
             1. 상태의 단위 / 업데이트 & 구독 가능
 
+  
+
+// 7 useState
+// youtube state
 
 *****
 #### 참고
 https://ko.reactjs.org/<br>
 https://www.youtube.com/playlist?list=PLuHgQVnccGMCOGstdDZvH41x0Vtvwyxu7<br>
 https://react.vlpt.us/<br>
+https://codingmania.tistory.com/333<br>
